@@ -19,7 +19,7 @@ This will be helpful to all the construction companies who are facing difficulti
 **Introduction:**  
 Send alert about Air Quality to users based on their zip code.
 
-**Abstract: **
+**Abstract:**
 Air Quality is becoming a major concern now a days. People are getting more and more curious to know the Air Quality in their area. Thus, we propose a solution where users can get regular updates about pollution in their area in form of SMSs or Emails.
 
 **Personas:**
