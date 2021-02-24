@@ -1,6 +1,6 @@
 ﻿# Team5
 
-**#IDEA1**
+**#IDEA1 - Approved**
 
 **Introduction:**
 Inventory and Machinery management tracking application for recording, tracking resources and assigning responsibilities.
