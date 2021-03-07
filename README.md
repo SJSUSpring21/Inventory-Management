@@ -15,3 +15,4 @@ We will build a dashboard which records every single transaction and also able t
 This will be helpful to all the construction companies who are facing difficulties in tracking their resources and optimizing the costs involved in it. 
 
 
+**System Architecture Diagram:**![image](https://user-images.githubusercontent.com/78995589/110226156-bcf5ec80-7ea1-11eb-9963-c51612ab94dc.png)
