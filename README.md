@@ -1,4 +1,4 @@
-﻿# Team5
+﻿# Inventory-Management
 
 **#IDEA1 - Approved**
 
