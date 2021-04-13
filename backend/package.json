@@ -1,0 +1,27 @@
+{
+  "name": "earthworks",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon node app.js",
+    "client": "cd ../ && npm start --prefix frontend",
+    "dev": "concurrently \"npm run start\" \"npm run client\"",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npm build"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "concurrently": "^6.0.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "http": "0.0.1-security",
+    "jsonwebtoken": "^8.5.1",
+    "mongodb-topology-manager": "^2.1.0",
+    "mongoose": "^5.10.7",
+    "nodemon": "^2.0.5",
+    "socket.io": "^3.0.4"
+  }
+}
