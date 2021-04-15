@@ -1,13 +1,12 @@
-const mongoose = require('mongoose')
-const allLocationsSchema = new mongoose.Schema({
-    name :{
-        type:String,
-        required:true
+const mongoose = require("mongoose");
+const allLocationsSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
     },
-    // abbr :{
-    //     type:String,
-    //     required:true
-    // },
-},{timestamps:true})
+  },
+  { timestamps: true }
+);
 
-mongoose.model("AllSiteLocations",allLocationsSchema)
+mongoose.model("AllSiteLocations", allLocationsSchema);
