@@ -47,3 +47,57 @@ router.post("/api/signin", (req, res) => {
     return res.status(422).json({ error: "Invalid Email or password 3" });
   }
 });
+
+router.get("/api/getLocations", (req, res) => {
+  Location.find()
+    .then((locations) => {
+      res.json({ locations });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+router.get("/api/getAllPersons", (req, res) => {
+  Person.find(
+    {},
+    {
+      first_name: 1,
+      last_name: 1,
+      role: 1,
+    }
+  )
+    .then((persons) => {
+      res.json({ persons });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+router.get("/api/getInwardOutward", (req, res) => {
+  InwardOutward.find({}, { _id: 0, createdAt: 0, updatedAt: 0, __v: 0 })
+    .sort("-createdAt")
+    .limit(200)
+    .then((inwardOutward) => {
+      res.json({ inwardOutward });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+router.get("/api/getOutward", (req, res) => {
+  InwardOutward.find(
+    { type: "Outward" },
+    { _id: 0, createdAt: 0, updatedAt: 0, __v: 0 }
+  )
+    .sort("-createdAt")
+    .limit(200)
+    .then((outward) => {
+      res.json({ outward });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
