@@ -32,4 +32,58 @@ export const types = [
     { 'value': 'people', 'label': 'PEOPLE' }
 ];
 
+export const jobtitles = [
+  {
+      value: 'engineer',
+      label: 'engineer'
+  },
+  {
+      value: 'architect',
+      label: 'architect'
+  },
+  {
+      value: 'owner',
+      label: 'owner'
+  }
+];
+
+export const organizations = [
+  {
+    value: 'hyderabad',
+    label: 'Hyderabad'
+  },
+  {
+    value: 'bangalore',
+    label: 'Bangalore'
+  },
+  {
+    value: 'mumbai',
+    label: 'Mumbai'
+  }
+];
+
+
+export const locations = [
+{
+  value: 'hyderabad',
+  label: 'Hyderabad'
+},
+{
+  value: 'bangalore',
+  label: 'Bangalore'
+},
+{
+  value: 'mumbai',
+  label: 'Mumbai'
+},
+{
+  value: 'talegaon',
+  label: 'Talegaon'
+}
+];
+
+export const persons = [
+
+];
+
 
