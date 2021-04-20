@@ -96,3 +96,32 @@ router.post("/api/addPerson", (req, res) => {
     });
   };
 });
+
+router.post("/api/addResource", (req, res) => {
+  const { rows, fullName, nickName, type, location, owner } = req.body.values;
+  rows.map((row) => {
+    const SKU = row.SKU;
+    const quantity = row.quantity;
+    const units = row.units;
+    const resource = new Resources({
+      full_name: fullName,
+      nick_name: nickName,
+      sku: SKU,
+      type: type,
+      units: units,
+      purchased_quantity: quantity,
+      available_quantity: quantity,
+      location: location,
+      owner: owner,
+      identifier: fullName + "-" + SKU,
+    });
+    resource
+      .save()
+      .then((result) => {
+        res.json({ resource: result });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  });
+});
