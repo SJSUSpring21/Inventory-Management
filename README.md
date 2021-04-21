@@ -1,6 +1,4 @@
 ﻿# Inventory-Management 
- 
- 
 
 **#IDEA1 - Approved**
 
