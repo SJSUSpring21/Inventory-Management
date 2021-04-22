@@ -44,8 +44,8 @@ const Dashboard = () => {
           >
             <LatestOrders />
           </Grid>
-          </Grid>
-          {/* <Grid
+          
+          <Grid
             item
             lg={3}
             sm={6}
@@ -100,7 +100,7 @@ const Dashboard = () => {
             <TrafficByDevice />
           </Grid>
         
-        </Grid> */}
+        </Grid>
       </Container>
     </Page>
   );
