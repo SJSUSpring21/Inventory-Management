@@ -263,3 +263,79 @@ router.post("/api/addInward", (req, res) => {
     .status(200)
     .json({ message: "Inward: All Resources updated Successfull" });
 });
+
+//line 331-------
+
+router.post("/api/addRole", (req, res) => {
+  const jobtitle = req.jobTitle;
+  const roles = new Roles({
+    role: jobtitle,
+  });
+
+  roles
+    .findOneAndUpdate({ role: jobtitle })
+    .then((result) => {
+      res.json({ jobTitles: result });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+router.post("/api/addOrganization", (req, res) => {
+  const organization = req.organization;
+  const organizationName = new Organization({
+    name: organization,
+  });
+
+  organizationName
+    .findOneAndUpdate({ name: organizationName })
+    .then((result) => {
+      res.json({ organizations: result });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+router.post("/api/updateResourceThreshold", async (req, res) => {
+  const updated_resource_array = req.body.updated_resources;
+  var count = 0;
+  updated_resource_array.map(async ({ threshold_quantity, identifier }) => {
+    const updateThreshold = (threshold_quantity, identifier) => {
+      return Resources.findOneAndUpdate(
+        { identifier: identifier },
+        { threshold_quantity: threshold_quantity },
+        { new: true },
+        (err, doc) => {
+          if (err) {
+            return console.log(
+              "Something wrong when updating data! resource = " +
+                resource +
+                "\n"
+            );
+          } else {
+            res.write(
+              " message : Update Success resource = " +
+                identifier +
+                " Threshold" +
+                threshold_quantity +
+                "\n"
+            );
+            if (count == updated_resource_array.length - 1) {
+              res.end();
+            }
+            count = count + 1;
+          }
+        }
+      ).catch((err) => {
+        console.log("err", err);
+      });
+    };
+    if (threshold_quantity !== "") {
+      const promise1 = await updateThreshold(threshold_quantity, identifier);
+      return promise1;
+    }
+  });
+  //394------
+});
