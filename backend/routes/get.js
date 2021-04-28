@@ -101,3 +101,86 @@ router.get("/api/getOutward", (req, res) => {
       console.log(err);
     });
 });
+
+router.get('/api/getTypes',(req,res)=>{
+    console.log("inside getTypes")
+    Types.find()
+    .sort('-createdAt')
+    .then(types=>{
+        res.json({types})
+    })
+    .catch(err=>{
+        console.log(err)
+    })
+})
+
+router.get('/api/getRoles',(req,res)=>{
+    Roles.find()
+    .then(roles=>{
+        res.json({roles})
+    })
+    .catch(err=>{
+        console.log(err)
+    })
+})
+
+router.get('/api/getOrganizations',(req,res)=>{
+    Organization.find()
+    .then(orgs=>{
+        res.json({orgs})
+    })
+    .catch(err=>{
+        console.log(err)
+    })
+})
+
+router.get('/api/getAllLocations',(req,res)=>{
+    Location.find()
+    .then(locations=>{
+        res.json({locations})
+    })
+    .catch(err=>{
+        console.log(err)
+    })
+})
+
+router.get('/api/getAllResources',(req,res)=>{
+    Resource.find({}, 
+    {
+        "identifier": 1
+    })
+    .then(resources=>{
+        res.json({resources})
+        
+    })
+    .catch(err=>{
+        console.log(err)
+    })
+})
+router.get('/api/getAlerts',(req,res)=>{
+    
+    Resource.find({$expr:{$gt:["$threshold_quantity", "$available_quantity"]}})
+    .sort('-createdAt')
+    .then(notifications=>{
+        console.log("Inside get ALerts ");
+        res.json({notifications})
+    })
+    .catch(err=>{
+        console.log(err)
+    })
+})
+
+
+router.get('/api/getFullResources',(req,res)=>{
+    Resource.find({}, {_id: 0, updatedAt: 0, __v: 0})
+    .sort('-createdAt')
+    .then(resources=>{
+        res.json({resources})
+    })
+    .catch(err=>{
+        console.log(err)
+    })
+})
+
+
+module.exports = router
