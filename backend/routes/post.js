@@ -337,5 +337,63 @@ router.post("/api/updateResourceThreshold", async (req, res) => {
       return promise1;
     }
   });
-  //394------
 });
+
+router.post('/api/updateReturnedResource',async (req,res)=>{
+       
+  const updated_resource_array = req.body.updated_resources;
+  console.log("retturns JSON = " , updated_resource_array);
+  var count = 0;
+  updated_resource_array.map( async ({outward_sequence, return_quantity, new_return}) => {
+
+      const saveInwardOutward = (identifier, current_quant) => {
+          const returns = new InwardOutward({
+              resource: identifier,
+              outward_sequence: outward_sequence,
+              quantity: current_quant,
+              return_quantity: return_quantity,
+              type: "Returns"
+          })
+
+          return  returns.save().then(result=>{
+              return console.log("resource = " + identifier + " saved successfully")
+          })
+          .catch(err=>{
+              console.log(err)
+          })
+      }
+
+      const updateUsedQuantity = (used_quantity, identifier) => {
+          return Resources.findOneAndUpdate({identifier : identifier},{used_quantity: used_quantity}, {new: true} ,(err, doc) => {
+          if (err) {
+              return console.log("Something wrong when updating data! resource = " + identifier + '\n');
+          }
+          })
+          .catch(err=>{
+              console.log("err",err)
+          })
+      }
+
+      const updateAvailableQuantity = (available_quantity, identifier) => {return Resources.findOneAndUpdate({identifier : identifier},{available_quantity: available_quantity}, {new: true} ,(err, doc) => {
+          if (err) {
+              return console.log("Something wrong when updating data! resource = " + identifier + '\n');
+          }
+          })
+          .catch(err=>{
+              console.log("err",err)
+          })
+      }
+      
+      
+      const getResourceValues = (identifier) => {return Resources.findOne({identifier : identifier},(err, doc)=>{
+          if(err)
+          {
+              return console.log({"message" :  "cannot find the resource, please try later" + currentresource});
+          }
+      })
+      .catch(err=>{
+          console.log(err)
+      })
+  }
+
+  //line 452 done ---------
