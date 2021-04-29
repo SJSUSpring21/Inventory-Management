@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, Navigate } from "react-router-dom";
 import { Router } from "react-router";
 import clsx from "clsx";
 import PropTypes from "prop-types";
@@ -18,7 +18,7 @@ import NotificationsIcon from "@material-ui/icons/NotificationsOutlined";
 import InputIcon from "@material-ui/icons/Input";
 import Logo from "../../components/Logo";
 import { io } from "socket.io-client";
-import { Markunread } from "@material-ui/icons";
+import { LaptopWindows, Markunread } from "@material-ui/icons";
 
 const END_POINT = process.env.PROD
   ? `http://${process.env.BACKEND_HOST}:5000`
@@ -151,7 +151,14 @@ const TopBar = ({ className, onMobileNavOpen, ...rest }) => {
               // markAsReadFn = {() => console.log("MarkAsReadFunction Called")}
             />
 
-            <IconButton color="inherit">
+            <IconButton
+              onClick={() => {
+                localStorage.removeItem("team5-token");
+                window.location = "/login";
+                // <Navigate to="/login"></Navigate>
+              }}
+              color="inherit"
+            >
               <InputIcon />
             </IconButton>
           </Hidden>

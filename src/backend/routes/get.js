@@ -25,17 +25,17 @@ router.post("/api/signin", (req, res) => {
 
   if (!email || !password) {
     return res.status(422).json({ error: "please add email or password" });
-  } else if (email == "hemraju@gmail.com") {
+  } else if (email == "team5@gmail.com") {
     console.log("Email", email);
     console.log("Password", password);
     bcrypt
-      .compare("Abcd1234", password)
+      .compare("qwerty", password)
       .then((doMatch) => {
         if (doMatch) {
           console.log("WE INSIDE");
           const token = jwt.sign({ _id: "email" }, JWT_SECRET);
-          const name = "hemraju@gmail.com";
-          const email = "Abcd1234";
+          const name = "team5@gmail.com";
+          const email = "qwerty";
           console.log(token);
           return res.json({ token, user: { name, email } });
         }

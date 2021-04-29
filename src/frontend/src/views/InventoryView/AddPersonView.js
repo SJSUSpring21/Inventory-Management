@@ -15,6 +15,7 @@ import {
   colors,
 } from "@material-ui/core";
 import Page from "../../components/Page";
+import { Redirect, Navigate } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -135,212 +136,220 @@ const AddPersonView = () => {
       padding: 10,
     }),
   };
-
+  const user = localStorage.getItem("team5-token");
   return (
-    <Page className={classes.root} title="Add Person">
-      <Box
-        display="flex"
-        flexDirection="column"
-        height="100%"
-        justifyContent="center"
-      >
-        <Container maxWidth="sm">
-          <Formik
-            initialValues={{
-              email: "",
-              firstName: "",
-              lastName: "",
-              location: "",
-              phone: "",
-              address: "",
-              organization: "",
-              jobTitle: "",
-            }}
-            validationSchema={Yup.object().shape({
-              email: Yup.string()
-                .email("Must be a valid email")
-                .max(255)
-                .required("Email is required"),
-              firstName: Yup.string()
-                .max(255)
-                .required("First name is required"),
-              lastName: Yup.string()
-                .max(255)
-                .required("Last name is required"),
-              location: Yup.string()
-                .max(255)
-                .required("Location is required"),
-              phone: Yup.string().matches(
-                /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/,
-                "Phone number is not valid"
-              ),
-              address: Yup.string()
-                .max(255)
-                .required("Address is required"),
-              policy: Yup.boolean().oneOf([true], "This field must be checked"),
-              organization: Yup.string()
-                .max(255)
-                .required("Organization is required"),
-              jobTitle: Yup.string()
-                .max(255)
-                .required("Address is required"),
-            })}
-            onSubmit={(values, { setSubmitting, resetForm }) => {
-              setTimeout(() => {
-                fetch("/api/addPerson", {
-                  method: "POST",
-                  headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify({ values }),
-                })
-                  .then((res) => {
-                    if (res.ok) {
-                      alert("Person Successfully Added");
-                    } else {
-                      alert("There was an error, please try later");
-                    }
-                    setSubmitting(false);
-                    resetForm({});
+    <div>
+      {!user && <Navigate to="/login"></Navigate>}
+      <Page className={classes.root} title="Add Person">
+        <Box
+          display="flex"
+          flexDirection="column"
+          height="100%"
+          justifyContent="center"
+        >
+          <Container maxWidth="sm">
+            <Formik
+              initialValues={{
+                email: "",
+                firstName: "",
+                lastName: "",
+                location: "",
+                phone: "",
+                address: "",
+                organization: "",
+                jobTitle: "",
+              }}
+              validationSchema={Yup.object().shape({
+                email: Yup.string()
+                  .email("Must be a valid email")
+                  .max(255)
+                  .required("Email is required"),
+                firstName: Yup.string()
+                  .max(255)
+                  .required("First name is required"),
+                lastName: Yup.string()
+                  .max(255)
+                  .required("Last name is required"),
+                location: Yup.string()
+                  .max(255)
+                  .required("Location is required"),
+                phone: Yup.string().matches(
+                  /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/,
+                  "Phone number is not valid"
+                ),
+                address: Yup.string()
+                  .max(255)
+                  .required("Address is required"),
+                policy: Yup.boolean().oneOf(
+                  [true],
+                  "This field must be checked"
+                ),
+                organization: Yup.string()
+                  .max(255)
+                  .required("Organization is required"),
+                jobTitle: Yup.string()
+                  .max(255)
+                  .required("Address is required"),
+              })}
+              onSubmit={(values, { setSubmitting, resetForm }) => {
+                setTimeout(() => {
+                  fetch("/api/addPerson", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ values }),
                   })
-                  .catch(() => alert("There was a error, Please try again"));
-              }, 1000);
-            }}
-          >
-            {({
-              errors,
-              handleBlur,
-              handleChange,
-              handleSubmit,
-              handleReset,
-              isSubmitting,
-              touched,
-              values,
-            }) => (
-              <form onSubmit={handleSubmit}>
-                {/* <Box mb={1}> */}
-                <Typography color="textPrimary" variant="h2">
-                  ADD PERSON
-                </Typography>
-                <Grid container spacing={3}>
-                  <Grid item md={6} xs={12}>
-                    <TextField
-                      error={Boolean(touched.firstName && errors.firstName)}
-                      fullWidth
-                      helperText={touched.firstName && errors.firstName}
-                      label="First name"
-                      margin="normal"
-                      name="firstName"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      value={values.firstName}
-                      variant="outlined"
-                    />
+                    .then((res) => {
+                      if (res.ok) {
+                        alert("Person Successfully Added");
+                      } else {
+                        alert("There was an error, please try later");
+                      }
+                      setSubmitting(false);
+                      resetForm({});
+                    })
+                    .catch(() => alert("There was a error, Please try again"));
+                }, 1000);
+              }}
+            >
+              {({
+                errors,
+                handleBlur,
+                handleChange,
+                handleSubmit,
+                handleReset,
+                isSubmitting,
+                touched,
+                values,
+              }) => (
+                <form onSubmit={handleSubmit}>
+                  {/* <Box mb={1}> */}
+                  <Typography color="textPrimary" variant="h2">
+                    ADD PERSON
+                  </Typography>
+                  <Grid container spacing={3}>
+                    <Grid item md={6} xs={12}>
+                      <TextField
+                        error={Boolean(touched.firstName && errors.firstName)}
+                        fullWidth
+                        helperText={touched.firstName && errors.firstName}
+                        label="First name"
+                        margin="normal"
+                        name="firstName"
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        value={values.firstName}
+                        variant="outlined"
+                      />
+                    </Grid>
+                    <Grid item md={6} xs={12}>
+                      <TextField
+                        error={Boolean(touched.lastName && errors.lastName)}
+                        fullWidth
+                        helperText={touched.lastName && errors.lastName}
+                        label="Last name"
+                        margin="normal"
+                        name="lastName"
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        value={values.lastName}
+                        variant="outlined"
+                      />
+                    </Grid>
                   </Grid>
-                  <Grid item md={6} xs={12}>
-                    <TextField
-                      error={Boolean(touched.lastName && errors.lastName)}
-                      fullWidth
-                      helperText={touched.lastName && errors.lastName}
-                      label="Last name"
-                      margin="normal"
-                      name="lastName"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      value={values.lastName}
-                      variant="outlined"
-                    />
+                  <Grid container spacing={3}>
+                    <Grid item md={6} xs={12}>
+                      <TextField
+                        error={Boolean(touched.email && errors.email)}
+                        fullWidth
+                        helperText={touched.email && errors.email}
+                        label="Email Address"
+                        margin="normal"
+                        name="email"
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        type="email"
+                        value={values.email}
+                        variant="outlined"
+                      />
+                    </Grid>
+                    <Grid item md={6} xs={12}>
+                      <TextField
+                        error={Boolean(touched.phone && errors.phone)}
+                        fullWidth
+                        helperText={touched.phone && errors.phone}
+                        label="Phone Number"
+                        name="phone"
+                        margin="normal"
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        type="number"
+                        value={values.phone}
+                        variant="outlined"
+                      />
+                    </Grid>
                   </Grid>
-                </Grid>
-                <Grid container spacing={3}>
-                  <Grid item md={6} xs={12}>
-                    <TextField
-                      error={Boolean(touched.email && errors.email)}
-                      fullWidth
-                      helperText={touched.email && errors.email}
-                      label="Email Address"
-                      margin="normal"
-                      name="email"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      type="email"
-                      value={values.email}
-                      variant="outlined"
-                    />
-                  </Grid>
-                  <Grid item md={6} xs={12}>
-                    <TextField
-                      error={Boolean(touched.phone && errors.phone)}
-                      fullWidth
-                      helperText={touched.phone && errors.phone}
-                      label="Phone Number"
-                      name="phone"
-                      margin="normal"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      type="number"
-                      value={values.phone}
-                      variant="outlined"
-                    />
-                  </Grid>
-                </Grid>
-                <br />
-                <CreatableSelect
-                  name="To Location"
-                  label="To Location"
-                  onChange={(selectedOption) => {
-                    handleLocationChange(selectedOption, values);
-                    handleChange("location");
-                  }}
-                  isClearable
-                  SelectProps={{ native: true }}
-                  options={locations}
-                  required
-                  defaultValue={{
-                    label: "To Location",
-                    value: values.location,
-                  }}
-                  variant="outlined"
-                  margin="normal"
-                  styles={customStyles}
-                />
-                <br />
-                <CreatableSelect
-                  name="organization"
-                  label="Organization"
-                  onChange={(selectedOption) => {
-                    handleOrganizationChange(selectedOption, values);
-                    handleChange("organization");
-                  }}
-                  isClearable
-                  SelectProps={{ native: true }}
-                  options={organizations}
-                  required
-                  defaultValue={{
-                    label: "Organizations",
-                    value: values.organization,
-                  }}
-                  variant="outlined"
-                  margin="normal"
-                  styles={customStyles}
-                />
-                <br />
-                <CreatableSelect
-                  name="jobTitle"
-                  label="Job Title"
-                  onChange={(selectedOption) => {
-                    handleRoleChange(selectedOption, values);
-                    handleChange("jobTitle");
-                  }}
-                  isClearable
-                  SelectProps={{ native: true }}
-                  options={jobtitles}
-                  required
-                  defaultValue={{ label: "Job title", value: values.jobTitle }}
-                  variant="outlined"
-                  margin="normal"
-                  styles={customStyles}
-                />
+                  <br />
+                  <CreatableSelect
+                    name="To Location"
+                    label="To Location"
+                    onChange={(selectedOption) => {
+                      handleLocationChange(selectedOption, values);
+                      handleChange("location");
+                    }}
+                    isClearable
+                    SelectProps={{ native: true }}
+                    options={locations}
+                    required
+                    defaultValue={{
+                      label: "To Location",
+                      value: values.location,
+                    }}
+                    variant="outlined"
+                    margin="normal"
+                    styles={customStyles}
+                  />
+                  <br />
+                  <CreatableSelect
+                    name="organization"
+                    label="Organization"
+                    onChange={(selectedOption) => {
+                      handleOrganizationChange(selectedOption, values);
+                      handleChange("organization");
+                    }}
+                    isClearable
+                    SelectProps={{ native: true }}
+                    options={organizations}
+                    required
+                    defaultValue={{
+                      label: "Organizations",
+                      value: values.organization,
+                    }}
+                    variant="outlined"
+                    margin="normal"
+                    styles={customStyles}
+                  />
+                  <br />
+                  <CreatableSelect
+                    name="jobTitle"
+                    label="Job Title"
+                    onChange={(selectedOption) => {
+                      handleRoleChange(selectedOption, values);
+                      handleChange("jobTitle");
+                    }}
+                    isClearable
+                    SelectProps={{ native: true }}
+                    options={jobtitles}
+                    required
+                    defaultValue={{
+                      label: "Job title",
+                      value: values.jobTitle,
+                    }}
+                    variant="outlined"
+                    margin="normal"
+                    styles={customStyles}
+                  />
 
-                {/* <TextField
+                  {/* <TextField
                   fullWidth
                   name="jobTitle"
                   onChange={handleChange}
@@ -363,7 +372,7 @@ const AddPersonView = () => {
                   ))}
                 </TextField> */}
 
-                {/* <TextField
+                  {/* <TextField
                   fullWidth
                   label="Select Organization"
                   name="organization"
@@ -388,41 +397,42 @@ const AddPersonView = () => {
                   ))}
                 </TextField> */}
 
-                <TextField
-                  multiline
-                  rows={3}
-                  error={Boolean(touched.address && errors.address)}
-                  fullWidth
-                  helperText={touched.address && errors.address}
-                  label="Address"
-                  margin="normal"
-                  name="address"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={values.address}
-                  variant="outlined"
-                />
-                {Boolean(touched.policy && errors.policy) && (
-                  <FormHelperText error>{errors.policy}</FormHelperText>
-                )}
-                <Box my={2}>
-                  <Button
-                    color="primary"
-                    disabled={isSubmitting}
+                  <TextField
+                    multiline
+                    rows={3}
+                    error={Boolean(touched.address && errors.address)}
                     fullWidth
-                    size="large"
-                    type="submit"
-                    variant="contained"
-                  >
-                    Submit
-                  </Button>
-                </Box>
-              </form>
-            )}
-          </Formik>
-        </Container>
-      </Box>
-    </Page>
+                    helperText={touched.address && errors.address}
+                    label="Address"
+                    margin="normal"
+                    name="address"
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    value={values.address}
+                    variant="outlined"
+                  />
+                  {Boolean(touched.policy && errors.policy) && (
+                    <FormHelperText error>{errors.policy}</FormHelperText>
+                  )}
+                  <Box my={2}>
+                    <Button
+                      color="primary"
+                      disabled={isSubmitting}
+                      fullWidth
+                      size="large"
+                      type="submit"
+                      variant="contained"
+                    >
+                      Submit
+                    </Button>
+                  </Box>
+                </form>
+              )}
+            </Formik>
+          </Container>
+        </Box>
+      </Page>
+    </div>
   );
 };
 
