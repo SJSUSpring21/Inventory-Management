@@ -93,8 +93,10 @@ const AddReturnView = ({ className, ...rest }) => {
                 console.log("newData", changes);
                 for (var i in changes) {
                   if (
-                    changes[i].newData.return_quantity <
-                    changes[i].newData.quantity
+                    changes[i].newData.return_quantity <=
+                      changes[i].newData.quantity &&
+                    changes[i].oldData.return_quantity <
+                      changes[i].newData.return_quantity
                   )
                     updated_resources.push({
                       outward_sequence: changes[i].newData.outward_sequence,
