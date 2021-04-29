@@ -524,138 +524,297 @@ router.post("/api/updateResourceThreshold", async (req, res) => {
   });
 });
 
+// router.post("/api/updateReturnedResource", async (req, res) => {
+//   const updated_resource_array = req.body.updated_resources;
+//   console.log("retturns JSON = ", updated_resource_array);
+//   var count = 0;
+//   updated_resource_array.map(
+//     async ({ outward_sequence, return_quantity, new_return }) => {
+//       const saveInwardOutward = (identifier, current_quant) => {
+//         const returns = new InwardOutward({
+//           resource: identifier,
+//           outward_sequence: outward_sequence,
+//           quantity: current_quant,
+//           return_quantity: return_quantity,
+//           type: "Returns",
+//         });
+
+//         return returns
+//           .save()
+//           .then((result) => {
+//             return console.log(
+//               "resource = " + identifier + " saved successfully"
+//             );
+//           })
+//           .catch((err) => {
+//             console.log(err);
+//           });
+//       };
+
+//       const updateUsedQuantity = (used_quantity, identifier) => {
+//         return Resources.findOneAndUpdate(
+//           { identifier: identifier },
+//           { used_quantity: used_quantity },
+//           { new: true },
+//           (err, doc) => {
+//             if (err) {
+//               return console.log(
+//                 "Something wrong when updating data! resource = " +
+//                   identifier +
+//                   "\n"
+//               );
+//             }
+//           }
+//         ).catch((err) => {
+//           console.log("err", err);
+//         });
+//       };
+
+//       const updateAvailableQuantity = (available_quantity, identifier) => {
+//         return Resources.findOneAndUpdate(
+//           { identifier: identifier },
+//           { available_quantity: available_quantity },
+//           { new: true },
+//           (err, doc) => {
+//             if (err) {
+//               return console.log(
+//                 "Something wrong when updating data! resource = " +
+//                   identifier +
+//                   "\n"
+//               );
+//             }
+//           }
+//         ).catch((err) => {
+//           console.log("err", err);
+//         });
+//       };
+
+//       const getResourceValues = (identifier) => {
+//         return Resources.findOne({ identifier: identifier }, (err, doc) => {
+//           if (err) {
+//             return console.log({
+//               message:
+//                 "cannot find the resource, please try later" + currentresource,
+//             });
+//           }
+//         }).catch((err) => {
+//           console.log(err);
+//         });
+//       };
+
+//       const updateReturnQuantity = (return_quantity, outward_sequence) => {
+//         return InwardOutward.findOneAndUpdate(
+//           { outward_sequence: outward_sequence },
+//           { return_quantity: return_quantity },
+//           { new: true },
+//           (err, doc) => {
+//             if (err) {
+//               return console.log(
+//                 "Something wrong when updating data! resource = " +
+//                   resource +
+//                   "\n"
+//               );
+//             } else {
+//               // console.log("INside ELse");
+//               if (count == updated_resource_array.length - 1) {
+//                 // console.log("inside end resulCount = " , count);
+//                 res.end();
+//               }
+//               count = count + 1;
+//             }
+//           }
+//         ).catch((err) => {
+//           console.log("err", err);
+//         });
+//       };
+
+//       if (return_quantity !== "") {
+//         const promise1 = await updateReturnQuantity(
+//           new_return,
+//           outward_sequence
+//         );
+//         console.log("promise1", promise1.resource);
+//         const promise2 = await getResourceValues(promise1.resource);
+//         console.log("promise2", promise2);
+//         const promise3 = await updateAvailableQuantity(
+//           promise2.available_quantity + return_quantity,
+//           promise1.resource
+//         );
+//         console.log("promise3", promise3);
+//         const promise4 = await getResourceValues(promise1.resource);
+//         console.log("promise4", promise4);
+//         const promise5 = await updateUsedQuantity(
+//           promise4.purchased_quantity - promise4.available_quantity,
+//           promise1.resource
+//         );
+//         console.log("promise5", promise5);
+//         const promise6 = await saveInwardOutward(
+//           promise1.resource,
+//           promise2.available_quantity + return_quantity
+//         );
+//         return promise1;
+//       }
+//     }
+//   );
+// });
+
 router.post("/api/updateReturnedResource", async (req, res) => {
-  const updated_resource_array = req.body.updated_resources;
-  console.log("retturns JSON = ", updated_resource_array);
-  var count = 0;
-  updated_resource_array.map(
-    async ({ outward_sequence, return_quantity, new_return }) => {
-      const saveInwardOutward = (identifier, current_quant) => {
-        const returns = new InwardOutward({
-          resource: identifier,
-          outward_sequence: outward_sequence,
-          quantity: current_quant,
-          return_quantity: return_quantity,
-          type: "Returns",
-        });
-
-        return returns
-          .save()
-          .then((result) => {
-            return console.log(
-              "resource = " + identifier + " saved successfully"
-            );
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      };
-
-      const updateUsedQuantity = (used_quantity, identifier) => {
-        return Resources.findOneAndUpdate(
-          { identifier: identifier },
-          { used_quantity: used_quantity },
-          { new: true },
-          (err, doc) => {
-            if (err) {
-              return console.log(
-                "Something wrong when updating data! resource = " +
-                  identifier +
-                  "\n"
-              );
-            }
-          }
-        ).catch((err) => {
-          console.log("err", err);
-        });
-      };
-
-      const updateAvailableQuantity = (available_quantity, identifier) => {
-        return Resources.findOneAndUpdate(
-          { identifier: identifier },
-          { available_quantity: available_quantity },
-          { new: true },
-          (err, doc) => {
-            if (err) {
-              return console.log(
-                "Something wrong when updating data! resource = " +
-                  identifier +
-                  "\n"
-              );
-            }
-          }
-        ).catch((err) => {
-          console.log("err", err);
-        });
-      };
-
-      const getResourceValues = (identifier) => {
-        return Resources.findOne({ identifier: identifier }, (err, doc) => {
-          if (err) {
-            return console.log({
-              message:
-                "cannot find the resource, please try later" + currentresource,
-            });
-          }
-        }).catch((err) => {
-          console.log(err);
-        });
-      };
-
-      const updateReturnQuantity = (return_quantity, outward_sequence) => {
-        return InwardOutward.findOneAndUpdate(
-          { outward_sequence: outward_sequence },
-          { return_quantity: return_quantity },
-          { new: true },
-          (err, doc) => {
-            if (err) {
-              return console.log(
-                "Something wrong when updating data! resource = " +
-                  resource +
-                  "\n"
-              );
-            } else {
-              // console.log("INside ELse");
-              if (count == updated_resource_array.length - 1) {
-                // console.log("inside end resulCount = " , count);
-                res.end();
-              }
-              count = count + 1;
-            }
-          }
-        ).catch((err) => {
-          console.log("err", err);
-        });
-      };
-
-      if (return_quantity !== "") {
-        const promise1 = await updateReturnQuantity(
-          new_return,
-          outward_sequence
+  const { quantity, resource, outward_sequence } = req.body.values;
+  Resources.findOne({ identifier: resource })
+    .then((resource) => {
+      if (resource == null) {
+        res.write(
+          index +
+            " message: Error  cannot find the resource, please try later" +
+            resource +
+            "\n"
         );
-        console.log("promise1", promise1.resource);
-        const promise2 = await getResourceValues(promise1.resource);
-        console.log("promise2", promise2);
-        const promise3 = await updateAvailableQuantity(
-          promise2.available_quantity + return_quantity,
-          promise1.resource
-        );
-        console.log("promise3", promise3);
-        const promise4 = await getResourceValues(promise1.resource);
-        console.log("promise4", promise4);
-        const promise5 = await updateUsedQuantity(
-          promise4.purchased_quantity - promise4.available_quantity,
-          promise1.resource
-        );
-        console.log("promise5", promise5);
-        const promise6 = await saveInwardOutward(
-          promise1.resource,
-          promise2.available_quantity + return_quantity
-        );
-        return promise1;
       }
-    }
-  );
+    }) //add update return quantity in outward
+    .then(async (promise2) => {
+      if (quantity !== "") {
+        const promise2 = await getResourceValues(resource);
+        if (promise2.used_quantity >= quantity) {
+          const promise3 = await updateAvailableQuantity(
+            promise2.available_quantity + quantity,
+            resource
+          );
+          console.log("promise3", promise3);
+          const promise4 = await getResourceValues(resource);
+          console.log("promise4", promise4);
+          const promise5 = await updateUsedQuantity(
+            promise4.purchased_quantity - promise4.available_quantity,
+            resource
+          );
+          console.log("promise5", promise5);
+          const prom = await getOutward();
+          const pro = await updateOutwardReturnQuantity(
+            prom.return_quantity + quantity
+          );
+          const promise6 = await saveInwardOutward(
+            resource,
+            promise2.available_quantity + quantity
+          );
+          return res
+            .status(200)
+            .json({ message: "Return: Returns updated Successfull" });
+        } else {
+          return res.json({
+            message:
+              "Error given quantity greater than available quantity for resource =" +
+              resource,
+          });
+        }
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+
+  const getOutward = () => {
+    return InwardOutward.findOne(
+      { outward_sequence: outward_sequence },
+      (err, doc) => {
+        if (err) {
+          return console.log(
+            "Something wrong when updating data! outward = " +
+              outward_sequence +
+              "\n"
+          );
+        }
+      }
+    ).catch((err) => {
+      console.log("err", err);
+    });
+  };
+
+  const updateOutwardReturnQuantity = (quantityReturned) => {
+    return InwardOutward.findOneAndUpdate(
+      { outward_sequence: outward_sequence },
+      { return_quantity: quantityReturned },
+      { new: true },
+      (err, doc) => {
+        if (err) {
+          return console.log(
+            "Something wrong when updating data! resource = " + resource + "\n"
+          );
+        }
+      }
+    ).catch((err) => {
+      console.log("err", err);
+    });
+  };
+
+  const saveInwardOutward = (identifier, current_quant) => {
+    const returns = new InwardOutward({
+      resource: identifier,
+      quantity: current_quant,
+      return_quantity: quantity,
+      type: "Returns",
+    });
+
+    return returns
+      .save()
+      .then((result) => {
+        return console.log("resource = " + identifier + " saved successfully");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const updateUsedQuantity = (used_quantity, identifier) => {
+    return Resources.findOneAndUpdate(
+      { identifier: identifier },
+      { used_quantity: used_quantity },
+      { new: true },
+      (err, doc) => {
+        if (err) {
+          return console.log(
+            "Something wrong when updating data! resource = " +
+              identifier +
+              "\n"
+          );
+        }
+      }
+    ).catch((err) => {
+      console.log("err", err);
+    });
+  };
+
+  const updateAvailableQuantity = (available_quantity, identifier) => {
+    return Resources.findOneAndUpdate(
+      { identifier: identifier },
+      { available_quantity: available_quantity },
+      { new: true },
+      (err, doc) => {
+        if (err) {
+          return console.log(
+            "Something wrong when updating data! resource = " +
+              identifier +
+              "\n"
+          );
+        }
+      }
+    ).catch((err) => {
+      console.log("err", err);
+    });
+  };
+
+  const getResourceValues = (identifier) => {
+    return Resources.findOne({ identifier: identifier }, (err, doc) => {
+      if (err) {
+        return console.log({
+          message: "cannot find the resource, please try later" + resource,
+        });
+      }
+    }).catch((err) => {
+      console.log(err);
+    });
+  };
 });
 
 router.post("/api/addInward", (req, res) => {
