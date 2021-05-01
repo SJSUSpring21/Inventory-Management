@@ -14,11 +14,6 @@ const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = require("../config/keys");
 const requireLogin = require("../middleware/requireLogin");
 
-// const app = express();
-// const io = app.get("socketio");
-
-// const app=require('../app')
-// const io=app.getSocketIo()
 
 router.post("/api/signin", (req, res) => {
   const { email, password } = req.body;
