@@ -31,6 +31,7 @@ require("./models/allSiteLocations");
 require("./models/notifications");
 
 var authService = require("./services/Auth/authService.js");
+var postService = require("./services/Post/postService");
 
 function handleTopicRequest(topic_name, fname) {
   //var topic_name = 'root_topic';
@@ -63,3 +64,4 @@ function handleTopicRequest(topic_name, fname) {
 }
 
 handleTopicRequest("getTopic", authService);
+handleTopicRequest("postTopic", postService);

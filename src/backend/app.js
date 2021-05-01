@@ -51,6 +51,7 @@ app.use(express.json());
 // app.use(require("./routes/get"));
 
 app.use(require("./routes/kafka-routes/get"));
+app.use(require("./routes/kafka-routes/post"));
 
 const connection = mongoose.connection;
 const Resources = mongoose.model("Resource");

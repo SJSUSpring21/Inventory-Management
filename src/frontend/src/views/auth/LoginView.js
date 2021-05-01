@@ -74,7 +74,7 @@ const LoginView = () => {
                 })
                   .then((res) => res.json())
                   .then((data) => {
-                    console.log("We out", data);
+                    console.log("We out", data.token);
                     if (data.error) {
                       alert(data.error);
                       resetForm({});

@@ -29,18 +29,18 @@ login = async (msg, callback) => {
           console.log(token);
 
           result = {
-            // token: token,
-            // user: {
-            //   name,
-            //   email,
-            // },
-            name,
-            email,
-            token,
+            token: token,
+            user: {
+              name,
+              email,
+            },
+            // name,
+            // email,
+            // token,
           };
           res.status = 200;
-          res.data = "success";
-          console.log("res login = ", res);
+          res.data = result;
+          console.log("res lllllogin = ", res);
           return callback(null, res);
           // return res.json({ token, user: { name, email } });
         }
@@ -249,7 +249,7 @@ getOrganizations = async (msg, callback) => {
     .then((orgs) => {
       res.status = 200;
       res.data = orgs;
-      console.log("res login = ", res);
+      console.log("res org = ", res);
       return callback(null, res);
     })
     .catch((err) => {
@@ -266,7 +266,7 @@ getAllLocations = async (msg, callback) => {
     .then((locations) => {
       res.status = 200;
       res.data = orgs;
-      console.log("res login = ", res);
+      console.log("res loc = ", res);
       return callback(null, res);
     })
     .catch((err) => {

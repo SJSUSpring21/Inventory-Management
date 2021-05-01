@@ -10,120 +10,137 @@ const Roles = mongoose.model("Roles");
 const Types = mongoose.model("Types");
 const AllSiteLocations = mongoose.model("AllSiteLocations");
 const Organization = mongoose.model("Organization");
-const requireLogin = require("../middleware/requireLogin");
+const requireLogin = require("../../middleware/requireLogin");
+const kafka = require("../../kafka/client");
 
 router.post("/api/addPerson", (req, res) => {
-  const {
-    firstName,
-    lastName,
-    phone,
-    email,
-    organization,
-    location,
-    address,
-    jobTitle,
-  } = req.body.values;
-  const person = new Person({
-    first_name: firstName,
-    last_name: lastName,
-    phone: phone,
-    email: email,
-    organization: organization,
-    current_location: location,
-    address: address,
-    role: jobTitle,
+  console.log("Adding Person");
+  req.body.path = "addPerson";
+  kafka.make_request("postTopic", req.body, (err, results) => {
+    console.log("results = ", results);
+    if (results.status === 200) res.json(results.data);
+    else res.status(results.status).json({ error: results.data });
   });
-  person
-    .save()
-    .then(async (result) => {
-      const promise1 = await addLocation();
-      const promise2 = await addOrganization();
-      const promise3 = await addJobtitle();
-      res.json({ person: result });
-    })
-    .catch((err) => {
-      console.log(err);
-    });
 
-  const addLocation = () => {
-    return AllSiteLocations.findOneAndUpdate(
-      { name: location },
-      { expire: new Date() },
-      { upsert: true },
-      (err, doc) => {
-        if (err) {
-          return console.log(
-            "Something wrong when updating data! location = " + location + "\n"
-          );
-        }
-      }
-    ).catch((err) => {
-      console.log("err", err);
-    });
-  };
-  const addOrganization = () => {
-    return Organization.findOneAndUpdate(
-      { name: organization },
-      { expire: new Date() },
-      { upsert: true },
-      (err, doc) => {
-        if (err) {
-          return console.log(
-            "Something wrong when updating data! organization = " +
-              organization +
-              "\n"
-          );
-        }
-      }
-    ).catch((err) => {
-      console.log("err", err);
-    });
-  };
-  const addJobtitle = () => {
-    return Roles.findOneAndUpdate(
-      { role: jobTitle },
-      { expire: new Date() },
-      { upsert: true },
-      (err, doc) => {
-        if (err) {
-          return console.log(
-            "Something wrong when updating data! jobTitle = " + jobTitle + "\n"
-          );
-        }
-      }
-    ).catch((err) => {
-      console.log("err", err);
-    });
-  };
+  // const {
+  //   firstName,
+  //   lastName,
+  //   phone,
+  //   email,
+  //   organization,
+  //   location,
+  //   address,
+  //   jobTitle,
+  // } = req.body.values;
+
+  // const person = new Person({
+  //   first_name: firstName,
+  //   last_name: lastName,
+  //   phone: phone,
+  //   email: email,
+  //   organization: organization,
+  //   current_location: location,
+  //   address: address,
+  //   role: jobTitle,
+  // });
+  // person
+  //   .save()
+  //   .then(async (result) => {
+  //     const promise1 = await addLocation();
+  //     const promise2 = await addOrganization();
+  //     const promise3 = await addJobtitle();
+  //     res.json({ person: result });
+  //   })
+  //   .catch((err) => {
+  //     console.log(err);
+  //   });
+
+  // const addLocation = () => {
+  //   return AllSiteLocations.findOneAndUpdate(
+  //     { name: location },
+  //     { expire: new Date() },
+  //     { upsert: true },
+  //     (err, doc) => {
+  //       if (err) {
+  //         return console.log(
+  //           "Something wrong when updating data! location = " + location + "\n"
+  //         );
+  //       }
+  //     }
+  //   ).catch((err) => {
+  //     console.log("err", err);
+  //   });
+  // };
+  // const addOrganization = () => {
+  //   return Organization.findOneAndUpdate(
+  //     { name: organization },
+  //     { expire: new Date() },
+  //     { upsert: true },
+  //     (err, doc) => {
+  //       if (err) {
+  //         return console.log(
+  //           "Something wrong when updating data! organization = " +
+  //             organization +
+  //             "\n"
+  //         );
+  //       }
+  //     }
+  //   ).catch((err) => {
+  //     console.log("err", err);
+  //   });
+  // };
+  // const addJobtitle = () => {
+  //   return Roles.findOneAndUpdate(
+  //     { role: jobTitle },
+  //     { expire: new Date() },
+  //     { upsert: true },
+  //     (err, doc) => {
+  //       if (err) {
+  //         return console.log(
+  //           "Something wrong when updating data! jobTitle = " + jobTitle + "\n"
+  //         );
+  //       }
+  //     }
+  //   ).catch((err) => {
+  //     console.log("err", err);
+  //   });
+  // };
 });
 
 router.post("/api/addResource", (req, res) => {
-  const { rows, fullName, nickName, type, location, owner } = req.body.values;
-  rows.map((row) => {
-    const SKU = row.SKU;
-    const quantity = row.quantity;
-    const units = row.units;
-    const resource = new Resources({
-      full_name: fullName,
-      nick_name: nickName,
-      sku: SKU,
-      type: type,
-      units: units,
-      purchased_quantity: quantity,
-      available_quantity: quantity,
-      location: location,
-      owner: owner,
-      identifier: fullName + "-" + SKU,
-    });
-    resource
-      .save()
-      .then((result) => {
-        res.json({ resource: result });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  req.body.path = "addResource";
+
+  kafka.make_request("postTopic", req.body, (err, results) => {
+    console.log("results = ", results);
+    if (results.status === 200) res.json(results.data);
+    else res.status(results.status).json({ error: results.data });
   });
+  // const { rows, fullName, nickName, type, location, owner } = req.body.values;
+  // rows.map((row) => {
+  //   const SKU = row.SKU;
+  //   const quantity = row.quantity;
+  //   const units = row.units;
+  //   const resource = new Resources({
+  //     full_name: fullName,
+  //     nick_name: nickName,
+  //     sku: SKU,
+  //     type: type,
+  //     units: units,
+  //     purchased_quantity: quantity,
+  //     available_quantity: quantity,
+  //     location: location,
+  //     owner: owner,
+  //     identifier: fullName + "-" + SKU,
+  //   });
+  //   resource
+  //     .save()
+  //     .then((result) => {
+  //       res.json({ resource: result });
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // });
 });
 
 router.post("/api/addInward", (req, res) => {
@@ -436,51 +453,78 @@ router.post("/api/addOutward", async (req, res) => {
 });
 
 router.post("/api/addLocation", (req, res) => {
-  const locationName = req.location;
-  const allLocations = new AllSiteLocations({
-    name: locationName,
+  req.body.path = "addLocation";
+  req.body.location = req.location;
+
+  kafka.make_request("postTopic", req.body, (err, results) => {
+    console.log("results = ", results);
+    if (results.status === 200) res.json(results.data);
+    else res.status(results.status).json({ error: results.data });
   });
 
-  allLocations
-    .findOneAndUpdate({ name: locationName })
-    .then((result) => {
-      res.json({ locations: result });
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  // const locationName = req.location;
+  // const allLocations = new AllSiteLocations({
+  //   name: locationName,
+  // });
+
+  // allLocations
+  //   .findOneAndUpdate({ name: locationName })
+  //   .then((result) => {
+  //     res.json({ locations: result });
+  //   })
+  //   .catch((err) => {
+  //     console.log(err);
+  //   });
 });
 
 router.post("/api/addRole", (req, res) => {
-  const jobtitle = req.jobTitle;
-  const roles = new Roles({
-    role: jobtitle,
+  req.body.path = "addRole";
+  req.body.jobTitle = req.jobTitle;
+
+  kafka.make_request("postTopic", req.body, (err, results) => {
+    console.log("results = ", results);
+    if (results.status === 200) res.json(results.data);
+    else res.status(results.status).json({ error: results.data });
   });
 
-  roles
-    .findOneAndUpdate({ role: jobtitle })
-    .then((result) => {
-      res.json({ jobTitles: result });
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  // const jobtitle = req.jobTitle;
+  // const roles = new Roles({
+  //   role: jobtitle,
+  // });
+
+  // roles
+  //   .findOneAndUpdate({ role: jobtitle })
+  //   .then((result) => {
+  //     res.json({ jobTitles: result });
+  //   })
+  //   .catch((err) => {
+  //     console.log(err);
+  //   });
 });
 
 router.post("/api/addOrganization", (req, res) => {
-  const organization = req.organization;
-  const organizationName = new Organization({
-    name: organization,
+  req.body.path = "addOrganization";
+  req.body.organization = req.organization;
+
+  kafka.make_request("postTopic", req.body, (err, results) => {
+    console.log("results = ", results);
+    if (results.status === 200) res.json(results.data);
+    else res.status(results.status).json({ error: results.data });
   });
 
-  organizationName
-    .findOneAndUpdate({ name: organizationName })
-    .then((result) => {
-      res.json({ organizations: result });
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  // const organization = req.organization;
+  // const organizationName = new Organization({
+  //   name: organization,
+  // });
+
+  // organizationName
+  //   .findOneAndUpdate({ name: organizationName })
+  //   .then((result) => {
+  //     res.json({ organizations: result });
+  //   })
+  //   .catch((err) => {
+  //     console.log(err);
+  //   });
 });
 
 router.post("/api/updateResourceThreshold", async (req, res) => {
@@ -523,140 +567,6 @@ router.post("/api/updateResourceThreshold", async (req, res) => {
     }
   });
 });
-
-// router.post("/api/updateReturnedResource", async (req, res) => {
-//   const updated_resource_array = req.body.updated_resources;
-//   console.log("retturns JSON = ", updated_resource_array);
-//   var count = 0;
-//   updated_resource_array.map(
-//     async ({ outward_sequence, return_quantity, new_return }) => {
-//       const saveInwardOutward = (identifier, current_quant) => {
-//         const returns = new InwardOutward({
-//           resource: identifier,
-//           outward_sequence: outward_sequence,
-//           quantity: current_quant,
-//           return_quantity: return_quantity,
-//           type: "Returns",
-//         });
-
-//         return returns
-//           .save()
-//           .then((result) => {
-//             return console.log(
-//               "resource = " + identifier + " saved successfully"
-//             );
-//           })
-//           .catch((err) => {
-//             console.log(err);
-//           });
-//       };
-
-//       const updateUsedQuantity = (used_quantity, identifier) => {
-//         return Resources.findOneAndUpdate(
-//           { identifier: identifier },
-//           { used_quantity: used_quantity },
-//           { new: true },
-//           (err, doc) => {
-//             if (err) {
-//               return console.log(
-//                 "Something wrong when updating data! resource = " +
-//                   identifier +
-//                   "\n"
-//               );
-//             }
-//           }
-//         ).catch((err) => {
-//           console.log("err", err);
-//         });
-//       };
-
-//       const updateAvailableQuantity = (available_quantity, identifier) => {
-//         return Resources.findOneAndUpdate(
-//           { identifier: identifier },
-//           { available_quantity: available_quantity },
-//           { new: true },
-//           (err, doc) => {
-//             if (err) {
-//               return console.log(
-//                 "Something wrong when updating data! resource = " +
-//                   identifier +
-//                   "\n"
-//               );
-//             }
-//           }
-//         ).catch((err) => {
-//           console.log("err", err);
-//         });
-//       };
-
-//       const getResourceValues = (identifier) => {
-//         return Resources.findOne({ identifier: identifier }, (err, doc) => {
-//           if (err) {
-//             return console.log({
-//               message:
-//                 "cannot find the resource, please try later" + currentresource,
-//             });
-//           }
-//         }).catch((err) => {
-//           console.log(err);
-//         });
-//       };
-
-//       const updateReturnQuantity = (return_quantity, outward_sequence) => {
-//         return InwardOutward.findOneAndUpdate(
-//           { outward_sequence: outward_sequence },
-//           { return_quantity: return_quantity },
-//           { new: true },
-//           (err, doc) => {
-//             if (err) {
-//               return console.log(
-//                 "Something wrong when updating data! resource = " +
-//                   resource +
-//                   "\n"
-//               );
-//             } else {
-//               // console.log("INside ELse");
-//               if (count == updated_resource_array.length - 1) {
-//                 // console.log("inside end resulCount = " , count);
-//                 res.end();
-//               }
-//               count = count + 1;
-//             }
-//           }
-//         ).catch((err) => {
-//           console.log("err", err);
-//         });
-//       };
-
-//       if (return_quantity !== "") {
-//         const promise1 = await updateReturnQuantity(
-//           new_return,
-//           outward_sequence
-//         );
-//         console.log("promise1", promise1.resource);
-//         const promise2 = await getResourceValues(promise1.resource);
-//         console.log("promise2", promise2);
-//         const promise3 = await updateAvailableQuantity(
-//           promise2.available_quantity + return_quantity,
-//           promise1.resource
-//         );
-//         console.log("promise3", promise3);
-//         const promise4 = await getResourceValues(promise1.resource);
-//         console.log("promise4", promise4);
-//         const promise5 = await updateUsedQuantity(
-//           promise4.purchased_quantity - promise4.available_quantity,
-//           promise1.resource
-//         );
-//         console.log("promise5", promise5);
-//         const promise6 = await saveInwardOutward(
-//           promise1.resource,
-//           promise2.available_quantity + return_quantity
-//         );
-//         return promise1;
-//       }
-//     }
-//   );
-// });
 
 router.post("/api/updateReturnedResource", async (req, res) => {
   const { quantity, resource, outward_sequence } = req.body.values;
