@@ -51,7 +51,7 @@ const AddReturnView = ({ className, ...rest }) => {
         }
         setAllLocations(x);
       });
-  }, [locations]);
+  }, []);
 
   useEffect(() => {
     fetch("/api/getOutward", {})
@@ -157,6 +157,7 @@ const AddReturnView = ({ className, ...rest }) => {
                     body: JSON.stringify({ values }),
                   })
                     .then((res) => {
+                      console.log("result for updateReturnedResource = ", res);
                       if (res.ok) {
                         res.text().then((x) => alert(x));
                       } else {

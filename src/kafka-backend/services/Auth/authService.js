@@ -265,7 +265,7 @@ getAllLocations = async (msg, callback) => {
   Location.find()
     .then((locations) => {
       res.status = 200;
-      res.data = orgs;
+      res.data = locations;
       console.log("res loc = ", res);
       return callback(null, res);
     })
