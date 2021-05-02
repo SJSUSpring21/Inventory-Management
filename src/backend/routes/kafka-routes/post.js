@@ -144,141 +144,150 @@ router.post("/api/addResource", (req, res) => {
 });
 
 router.post("/api/addInward", (req, res) => {
-  const {
-    rows,
-    suppliedBy,
-    sourcedBy,
-    organization,
-    comments,
-    date,
-    billNo,
-  } = req.body.values;
-  rows.map((row) => {
-    const resource = row.resource;
-    const price = row.price;
-    const quantity = row.quantity;
-    const GST = row.GST;
-    const inward = new InwardOutward({
-      resource: resource,
-      price: price,
-      quantity: quantity,
-      supplier: suppliedBy,
-      sourced_by: sourcedBy,
-      comments: comments,
-      organization: organization,
-      date: date,
-      billNumber: billNo,
-      GST: GST,
-      type: "Inward",
-    });
+  console.log("Adding Inward");
+  req.body.path = "addInward";
 
-    var present_quantity = 0;
-    var present_purchased_quantity = 0;
-
-    Resources.findOne({ identifier: resource })
-      .then((currentresource) => {
-        if (currentresource == null) {
-          return res.json({
-            message:
-              "cannot find the resource, please try later" + currentresource,
-          });
-        } else {
-          present_quantity = currentresource.available_quantity;
-          present_purchased_quantity = currentresource.purchased_quantity;
-          used_quantity = present_purchased_quantity - present_quantity;
-        }
-      })
-      .then(async (x) => {
-        const promise1 = await updateResource1();
-        const promise2 = await updateResource2();
-        const Promise3 = await updateResource3();
-        const promise3 = await saveInward();
-        return promise3;
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-
-    const updateResource1 = () => {
-      return Resources.findOneAndUpdate(
-        { identifier: resource, available_quantity: present_quantity },
-        { $inc: { available_quantity: quantity } },
-        { new: true },
-        (err, doc) => {
-          if (err) {
-            return console.log(
-              "Something wrong when updating data! resource = " +
-                resource +
-                "\n"
-            );
-          }
-        }
-      ).catch((err) => {
-        console.log("err", err);
-      });
-    };
-
-    const updateResource2 = () => {
-      return Resources.findOneAndUpdate(
-        {
-          identifier: resource,
-          purchased_quantity: present_purchased_quantity,
-        },
-        { $inc: { purchased_quantity: quantity } },
-        { new: true },
-        (err, doc) => {
-          if (err) {
-            return console.log(
-              "Something wrong when updating data! resource = " +
-                resource +
-                "\n"
-            );
-          }
-        }
-      ).catch((err) => {
-        console.log("err", err);
-      });
-    };
-
-    const updateResource3 = () => {
-      return Resources.findOneAndUpdate(
-        {
-          identifier: resource,
-          purchased_quantity: present_purchased_quantity,
-        },
-        { $inc: { purchased_quantity: quantity } },
-        { new: true },
-        (err, doc) => {
-          if (err) {
-            return console.log(
-              "Something wrong when updating data! resource = " +
-                resource +
-                "\n"
-            );
-          }
-        }
-      ).catch((err) => {
-        console.log("err", err);
-      });
-    };
-
-    const saveInward = () => {
-      return inward
-        .save()
-        .then((result) => {
-          return console.log("resource = " + resource + " saved successfully");
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    };
+  kafka.make_request("postTopic", req.body, (err, results) => {
+    console.log("results = ", results);
+    if (results.status === 200) res.json(results.data);
+    else res.status(results.status).json({ error: results.data });
   });
-  return res
-    .status(200)
-    .json({ message: "Inward: All Resources updated Successfull" });
+
+  // const {
+  //   rows,
+  //   suppliedBy,
+  //   sourcedBy,
+  //   organization,
+  //   comments,
+  //   date,
+  //   billNo,
+  // } = req.body.values;
+  // rows.map((row) => {
+  //   const resource = row.resource;
+  //   const price = row.price;
+  //   const quantity = row.quantity;
+  //   const GST = row.GST;
+  //   const inward = new InwardOutward({
+  //     resource: resource,
+  //     price: price,
+  //     quantity: quantity,
+  //     supplier: suppliedBy,
+  //     sourced_by: sourcedBy,
+  //     comments: comments,
+  //     organization: organization,
+  //     date: date,
+  //     billNumber: billNo,
+  //     GST: GST,
+  //     type: "Inward",
+  //   });
+
+  //   var present_quantity = 0;
+  //   var present_purchased_quantity = 0;
+
+  //   Resources.findOne({ identifier: resource })
+  //     .then((currentresource) => {
+  //       if (currentresource == null) {
+  //         return res.json({
+  //           message:
+  //             "cannot find the resource, please try later" + currentresource,
+  //         });
+  //       } else {
+  //         present_quantity = currentresource.available_quantity;
+  //         present_purchased_quantity = currentresource.purchased_quantity;
+  //         used_quantity = present_purchased_quantity - present_quantity;
+  //       }
+  //     })
+  //     .then(async (x) => {
+  //       const promise1 = await updateResource1();
+  //       const promise2 = await updateResource2();
+  //       const Promise3 = await updateResource3();
+  //       const promise3 = await saveInward();
+  //       return promise3;
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+
+  //   const updateResource1 = () => {
+  //     return Resources.findOneAndUpdate(
+  //       { identifier: resource, available_quantity: present_quantity },
+  //       { $inc: { available_quantity: quantity } },
+  //       { new: true },
+  //       (err, doc) => {
+  //         if (err) {
+  //           return console.log(
+  //             "Something wrong when updating data! resource = " +
+  //               resource +
+  //               "\n"
+  //           );
+  //         }
+  //       }
+  //     ).catch((err) => {
+  //       console.log("err", err);
+  //     });
+  //   };
+
+  //   const updateResource2 = () => {
+  //     return Resources.findOneAndUpdate(
+  //       {
+  //         identifier: resource,
+  //         purchased_quantity: present_purchased_quantity,
+  //       },
+  //       { $inc: { purchased_quantity: quantity } },
+  //       { new: true },
+  //       (err, doc) => {
+  //         if (err) {
+  //           return console.log(
+  //             "Something wrong when updating data! resource = " +
+  //               resource +
+  //               "\n"
+  //           );
+  //         }
+  //       }
+  //     ).catch((err) => {
+  //       console.log("err", err);
+  //     });
+  //   };
+
+  //   const updateResource3 = () => {
+  //     return Resources.findOneAndUpdate(
+  //       {
+  //         identifier: resource,
+  //         purchased_quantity: present_purchased_quantity,
+  //       },
+  //       { $inc: { purchased_quantity: quantity } },
+  //       { new: true },
+  //       (err, doc) => {
+  //         if (err) {
+  //           return console.log(
+  //             "Something wrong when updating data! resource = " +
+  //               resource +
+  //               "\n"
+  //           );
+  //         }
+  //       }
+  //     ).catch((err) => {
+  //       console.log("err", err);
+  //     });
+  //   };
+
+  //   const saveInward = () => {
+  //     return inward
+  //       .save()
+  //       .then((result) => {
+  //         return console.log("resource = " + resource + " saved successfully");
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //       });
+  //   };
+  // });
+  // return res
+  //   .status(200)
+  //   .json({ message: "Inward: All Resources updated Successfull" });
 });
 
 router.post("/api/addOutward", async (req, res) => {
@@ -577,19 +586,20 @@ router.post("/api/updateResourceThreshold", async (req, res) => {
 
 router.post("/api/updateReturnedResource", async (req, res) => {
   req.body.path = "updateReturnedResource";
+
   kafka.make_request("postTopic", req.body, (err, results) => {
     console.log("results = ", results);
-    if (results.status === 200) {
-      return res.status(200).json(results.data);
-    } else res.json(results.data);
+    if (results.status === 200) res.json(results.data);
+    else res.status(results.status).json({ error: results.data });
   });
 
   // const { quantity, resource, outward_sequence } = req.body.values;
   // Resources.findOne({ identifier: resource })
   //   .then((resource) => {
-  //     if (resource != null) {
+  //     if (resource == null) {
   //       res.write(
-  //         " message: Error  cannot find the resource, please try later" +
+  //         index +
+  //           " message: Error  cannot find the resource, please try later" +
   //           resource +
   //           "\n"
   //       );
@@ -741,143 +751,152 @@ router.post("/api/updateReturnedResource", async (req, res) => {
   // };
 });
 
-router.post("/api/addInward", (req, res) => {
-  const {
-    rows,
-    suppliedBy,
-    sourcedBy,
-    organization,
-    comments,
-    date,
-    billNo,
-  } = req.body.values;
-  rows.map((row) => {
-    const resource = row.resource;
-    const price = row.price;
-    const quantity = row.quantity;
-    const GST = row.GST;
-    const inward = new InwardOutward({
-      resource: resource,
-      price: price,
-      quantity: quantity,
-      supplier: suppliedBy,
-      sourced_by: sourcedBy,
-      comments: comments,
-      organization: organization,
-      date: date,
-      billNumber: billNo,
-      GST: GST,
-      type: "Inward",
-    });
+// router.post("/api/addInward", (req, res) => {
 
-    var present_quantity = 0;
-    var present_purchased_quantity = 0;
+//   req.body.path = "addInward";
 
-    Resources.findOne({ identifier: resource })
-      .then((currentresource) => {
-        if (currentresource == null) {
-          return res.json({
-            message:
-              "cannot find the resource, please try later" + currentresource,
-          });
-        } else {
-          present_quantity = currentresource.available_quantity;
-          present_purchased_quantity = currentresource.purchased_quantity;
-          used_quantity = present_purchased_quantity - present_quantity;
-        }
-      })
-      .then(async (x) => {
-        const promise1 = await updateResource1();
-        const promise2 = await updateResource2();
-        constPromise3 = await updateResource3();
-        const promise3 = await saveInward();
-        return promise3;
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+//   kafka.make_request("postTopic", req.body, (err, results) => {
+//     console.log("results = ", results);
+//     if (results.status === 200) res.json(results.data);
+//     else res.status(results.status).json({ error: results.data });
+//   });
 
-    const updateResource1 = () => {
-      return Resources.findOneAndUpdate(
-        { identifier: resource, available_quantity: present_quantity },
-        { $inc: { available_quantity: quantity } },
-        { new: true },
-        (err, doc) => {
-          if (err) {
-            return console.log(
-              "Something wrong when updating data! resource = " +
-                resource +
-                "\n"
-            );
-          }
-        }
-      ).catch((err) => {
-        console.log("err", err);
-      });
-    };
+// const {
+//   rows,
+//   suppliedBy,
+//   sourcedBy,
+//   organization,
+//   comments,
+//   date,
+//   billNo,
+// } = req.body.values;
+// rows.map((row) => {
+//   const resource = row.resource;
+//   const price = row.price;
+//   const quantity = row.quantity;
+//   const GST = row.GST;
+//   const inward = new InwardOutward({
+//     resource: resource,
+//     price: price,
+//     quantity: quantity,
+//     supplier: suppliedBy,
+//     sourced_by: sourcedBy,
+//     comments: comments,
+//     organization: organization,
+//     date: date,
+//     billNumber: billNo,
+//     GST: GST,
+//     type: "Inward",
+//   });
 
-    const updateResource2 = () => {
-      return Resources.findOneAndUpdate(
-        {
-          identifier: resource,
-          purchased_quantity: present_purchased_quantity,
-        },
-        { $inc: { purchased_quantity: quantity } },
-        { new: true },
-        (err, doc) => {
-          if (err) {
-            return console.log(
-              "Something wrong when updating data! resource = " +
-                resource +
-                "\n"
-            );
-          }
-        }
-      ).catch((err) => {
-        console.log("err", err);
-      });
-    };
+//   var present_quantity = 0;
+//   var present_purchased_quantity = 0;
 
-    const updateResource3 = () => {
-      return Resources.findOneAndUpdate(
-        {
-          identifier: resource,
-          purchased_quantity: present_purchased_quantity,
-        },
-        { $inc: { purchased_quantity: quantity } },
-        { new: true },
-        (err, doc) => {
-          if (err) {
-            return console.log(
-              "Something wrong when updating data! resource = " +
-                resource +
-                "\n"
-            );
-          }
-        }
-      ).catch((err) => {
-        console.log("err", err);
-      });
-    };
+//   Resources.findOne({ identifier: resource })
+//     .then((currentresource) => {
+//       if (currentresource == null) {
+//         return res.json({
+//           message:
+//             "cannot find the resource, please try later" + currentresource,
+//         });
+//       } else {
+//         present_quantity = currentresource.available_quantity;
+//         present_purchased_quantity = currentresource.purchased_quantity;
+//         used_quantity = present_purchased_quantity - present_quantity;
+//       }
+//     })
+//     .then(async (x) => {
+//       const promise1 = await updateResource1();
+//       const promise2 = await updateResource2();
+//       constPromise3 = await updateResource3();
+//       const promise3 = await saveInward();
+//       return promise3;
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//     });
 
-    const saveInward = () => {
-      return inward
-        .save()
-        .then((result) => {
-          return console.log("resource = " + resource + " saved successfully");
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    };
-  });
-  return res
-    .status(200)
-    .json({ message: "Inward: All Resources updated Successfull" });
-});
+//   const updateResource1 = () => {
+//     return Resources.findOneAndUpdate(
+//       { identifier: resource, available_quantity: present_quantity },
+//       { $inc: { available_quantity: quantity } },
+//       { new: true },
+//       (err, doc) => {
+//         if (err) {
+//           return console.log(
+//             "Something wrong when updating data! resource = " +
+//               resource +
+//               "\n"
+//           );
+//         }
+//       }
+//     ).catch((err) => {
+//       console.log("err", err);
+//     });
+//   };
+
+//   const updateResource2 = () => {
+//     return Resources.findOneAndUpdate(
+//       {
+//         identifier: resource,
+//         purchased_quantity: present_purchased_quantity,
+//       },
+//       { $inc: { purchased_quantity: quantity } },
+//       { new: true },
+//       (err, doc) => {
+//         if (err) {
+//           return console.log(
+//             "Something wrong when updating data! resource = " +
+//               resource +
+//               "\n"
+//           );
+//         }
+//       }
+//     ).catch((err) => {
+//       console.log("err", err);
+//     });
+//   };
+
+//   const updateResource3 = () => {
+//     return Resources.findOneAndUpdate(
+//       {
+//         identifier: resource,
+//         purchased_quantity: present_purchased_quantity,
+//       },
+//       { $inc: { purchased_quantity: quantity } },
+//       { new: true },
+//       (err, doc) => {
+//         if (err) {
+//           return console.log(
+//             "Something wrong when updating data! resource = " +
+//               resource +
+//               "\n"
+//           );
+//         }
+//       }
+//     ).catch((err) => {
+//       console.log("err", err);
+//     });
+//   };
+
+//   const saveInward = () => {
+//     return inward
+//       .save()
+//       .then((result) => {
+//         return console.log("resource = " + resource + " saved successfully");
+//       })
+//       .catch((err) => {
+//         console.log(err);
+//       });
+//   };
+// });
+// return res
+//   .status(200)
+//   .json({ message: "Inward: All Resources updated Successfull" });
+// });
 
 router.post("/api/loadDefaultData", (req, res) => {
   const organizations = [

@@ -202,7 +202,10 @@ const OutwardView = () => {
                     .then((res) => {
                       console.log("res - ", res);
                       if (res.ok) {
-                        res.text().then((x) => alert(x));
+                        res.text().then((x) => {
+                          alert(x);
+                          console.log("RESPONSE.TEXT: ", x);
+                        });
                       } else {
                         alert("There was an errror");
                       }

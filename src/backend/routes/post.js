@@ -333,6 +333,7 @@ router.post("/api/addOutward", async (req, res) => {
         // console.log("inside last .then", resulCount);
         if (resulCount == rows.length - 1) {
           console.log("inside end resulCount = ", resulCount);
+          console.log("---------------\nThe cummulated response : ", res);
           res.end();
         }
         resulCount = resulCount + 1;
