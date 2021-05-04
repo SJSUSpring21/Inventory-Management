@@ -290,8 +290,8 @@ const AddPersonView = () => {
                   </Grid>
                   <br />
                   <CreatableSelect
-                    name="To Location"
-                    label="To Location"
+                    name="Location"
+                    label="Location"
                     onChange={(selectedOption) => {
                       handleLocationChange(selectedOption, values);
                       handleChange("location");
@@ -301,7 +301,7 @@ const AddPersonView = () => {
                     options={locations}
                     required
                     defaultValue={{
-                      label: "To Location",
+                      label: "Location",
                       value: values.location,
                     }}
                     variant="outlined"
