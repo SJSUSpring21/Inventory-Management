@@ -192,6 +192,7 @@ const AddPersonView = () => {
                   .required("Address is required"),
               })}
               onSubmit={(values, { setSubmitting, resetForm }) => {
+                console.log("In on Subbmit");
                 setTimeout(() => {
                   fetch("/api/addPerson", {
                     method: "POST",
@@ -204,7 +205,7 @@ const AddPersonView = () => {
                       } else {
                         alert("There was an error, please try later");
                       }
-                      setSubmitting(false);
+                      // setSubmitting(false);
                       resetForm({});
                     })
                     .catch(() => alert("There was a error, Please try again"));
@@ -417,7 +418,7 @@ const AddPersonView = () => {
                   <Box my={2}>
                     <Button
                       color="primary"
-                      disabled={isSubmitting}
+                      // disabled={isSubmitting}
                       fullWidth
                       size="large"
                       type="submit"
