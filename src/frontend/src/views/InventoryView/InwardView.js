@@ -14,6 +14,8 @@ import {
 } from "@material-ui/core";
 import Page from "../../components/Page";
 import Select from "react-select";
+import { url } from "../../prodConfig";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.background.dark,
@@ -38,7 +40,7 @@ const InwardView = () => {
   const [allPersons, setAllPersons] = useState([]);
 
   useEffect(() => {
-    fetch("/api/getFullResources", {})
+    fetch(url + "/api/getFullResources", {})
       .then((res) => res.json())
       .then((result) => {
         var x = [];
@@ -61,7 +63,7 @@ const InwardView = () => {
   }, []);
 
   useEffect(() => {
-    fetch("/api/getAllPersons", {})
+    fetch(url + "/api/getAllPersons", {})
       .then((res) => res.json())
       .then((result) => {
         setAllPersons(result.persons);
@@ -146,7 +148,7 @@ const InwardView = () => {
               })}
               onSubmit={(values, { setSubmitting, resetForm }) => {
                 setTimeout(() => {
-                  fetch("/api/addInward", {
+                  fetch(url + "/api/addInward", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ values }),

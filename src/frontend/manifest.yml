@@ -1,0 +1,7 @@
+applications:
+  - name: 272-inventory-management
+memory: 256M
+path: build/
+buildpack: staticfile_buildpack
+routes:
+  - route: 272-inventory-management.us-south.cf.appdomain.cloud/

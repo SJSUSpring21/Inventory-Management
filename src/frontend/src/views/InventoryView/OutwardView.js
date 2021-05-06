@@ -17,6 +17,7 @@ import {
 } from "@material-ui/core";
 import Page from "../../components/Page";
 import { Redirect, Navigate } from "react-router-dom";
+import { url } from "../../prodConfig";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -57,7 +58,7 @@ const OutwardView = () => {
 
   const [locations, setAllLocations] = useState([]);
   useEffect(() => {
-    fetch("/api/getAllLocations", {})
+    fetch(url + "/api/getAllLocations", {})
       .then((res) => res.json())
       .then((result) => {
         var x = [];
@@ -79,7 +80,7 @@ const OutwardView = () => {
   // })
   // },[]);
   useEffect(() => {
-    fetch("/api/getFullResources", {})
+    fetch(url + "/api/getFullResources", {})
       .then((res) => res.json())
       .then((result) => {
         var x = [];
@@ -101,7 +102,7 @@ const OutwardView = () => {
       });
   }, []);
   useEffect(() => {
-    fetch("/api/getAllPersons", {})
+    fetch(url + "/api/getAllPersons", {})
       .then((res) => res.json())
       .then((result) => {
         setAllPersons(result.persons);
@@ -194,7 +195,7 @@ const OutwardView = () => {
               onSubmit={(values, { setSubmitting, resetForm }) => {
                 console.log("values = ", values);
                 setTimeout(() => {
-                  fetch("/api/addOutward", {
+                  fetch(url + "/api/addOutward", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ values }),

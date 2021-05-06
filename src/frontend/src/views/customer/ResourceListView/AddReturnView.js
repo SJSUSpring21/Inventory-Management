@@ -5,6 +5,7 @@ import { Formik, useField, FieldArray } from "formik";
 import CreatableSelect from "react-select/creatable";
 import Select from "react-select";
 import { Redirect, Navigate } from "react-router-dom";
+import { url } from "../../../prodConfig";
 
 import {
   Box,
@@ -39,7 +40,7 @@ const AddReturnView = ({ className, ...rest }) => {
 
   const [locations, setAllLocations] = useState([]);
   useEffect(() => {
-    fetch("/api/getAllLocations", {})
+    fetch(url + "/api/getAllLocations", {})
       .then((res) => res.json())
       .then((result) => {
         var x = [];
@@ -54,7 +55,7 @@ const AddReturnView = ({ className, ...rest }) => {
   }, []);
 
   useEffect(() => {
-    fetch("/api/getOutward", {})
+    fetch(url + "/api/getOutward", {})
       .then((res) => res.json())
       .then((result) => {
         var x = [];
@@ -76,7 +77,7 @@ const AddReturnView = ({ className, ...rest }) => {
   }, []);
 
   useEffect(() => {
-    fetch("/api/getAllPersons", {})
+    fetch(url + "/api/getAllPersons", {})
       .then((res) => res.json())
       .then((result) => {
         setAllPersons(result.persons);
@@ -151,7 +152,7 @@ const AddReturnView = ({ className, ...rest }) => {
               })}
               onSubmit={(values, { setSubmitting, resetForm }) => {
                 setTimeout(() => {
-                  fetch("/api/updateReturnedResource", {
+                  fetch(url + "/api/updateReturnedResource", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ values }),

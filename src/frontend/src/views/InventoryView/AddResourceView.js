@@ -5,6 +5,7 @@ import { Formik, FieldArray } from "formik";
 import * as initialData from "../../components/initialData";
 import CreatableSelect from "react-select/creatable";
 import { Redirect, Navigate } from "react-router-dom";
+import { url } from "../../prodConfig";
 
 import {
   Box,
@@ -45,7 +46,7 @@ const AddResourceView = () => {
 
   const [locations, setAllLocations] = useState([]);
   useEffect(() => {
-    fetch("/api/getAllLocations", {})
+    fetch(url + "/api/getAllLocations", {})
       .then((res) => res.json())
       .then((result) => {
         var x = [];
@@ -59,7 +60,7 @@ const AddResourceView = () => {
       });
   }, []);
   useEffect(() => {
-    fetch("/api/getAllPersons", {})
+    fetch(url + "/api/getAllPersons", {})
       .then((res) => res.json())
       .then((result) => {
         setAllOwners(result.persons);
@@ -140,7 +141,7 @@ const AddResourceView = () => {
               })}
               onSubmit={(values, { setSubmitting, resetForm }) => {
                 setTimeout(() => {
-                  fetch("/api/addResource", {
+                  fetch(url + "/api/addResource", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ values }),

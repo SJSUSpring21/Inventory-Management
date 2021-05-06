@@ -17,6 +17,7 @@ import FacebookIcon from "../../icons/Facebook";
 import GoogleIcon from "../../icons/Google";
 import Page from "../../components/Page";
 import { Alert } from "@material-ui/lab";
+import { url } from "../../prodConfig";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -62,7 +63,7 @@ const LoginView = () => {
                 ) {
                   return;
                 }
-                fetch("/api/signin", {
+                fetch(url + "/api/signin", {
                   method: "post",
                   headers: {
                     "Content-Type": "application/json",

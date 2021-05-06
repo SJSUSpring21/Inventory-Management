@@ -16,6 +16,7 @@ import {
 } from "@material-ui/core";
 import Page from "../../components/Page";
 import { Redirect, Navigate } from "react-router-dom";
+import { url } from "../../prodConfig";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -66,7 +67,7 @@ const AddPersonView = () => {
   };
 
   useEffect(() => {
-    fetch("/api/getRoles", {})
+    fetch(url + "/api/getRoles", {})
       .then((res) => res.json())
       .then((result) => {
         var x = [];
@@ -78,7 +79,7 @@ const AddPersonView = () => {
   }, []);
 
   useEffect(() => {
-    fetch("/api/getAllLocations", {})
+    fetch(url + "/api/getAllLocations", {})
       .then((res) => res.json())
       .then((result) => {
         var x = [];
@@ -93,7 +94,7 @@ const AddPersonView = () => {
   }, [locations]);
 
   useEffect(() => {
-    fetch("/api/getOrganizations", {})
+    fetch(url + "/api/getOrganizations", {})
       .then((res) => res.json())
       .then((result) => {
         var x = [];
@@ -194,7 +195,7 @@ const AddPersonView = () => {
               onSubmit={(values, { setSubmitting, resetForm }) => {
                 console.log("In on Subbmit");
                 setTimeout(() => {
-                  fetch("/api/addPerson", {
+                  fetch(url + "/api/addPerson", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ values }),

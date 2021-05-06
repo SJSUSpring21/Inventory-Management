@@ -16,6 +16,7 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
+import { url } from "../../../prodConfig";
 
 const tableIcons = {
   FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
@@ -41,7 +42,7 @@ const LatestOrders = ({ className, ...rest }) => {
   };
   var columns_array = [];
   useEffect(() => {
-    fetch("/api/getInwardOutward", {})
+    fetch(url + "/api/getInwardOutward", {})
       .then((res) => res.json())
       .then((result) => {
         console.log("HAHAHAHHAHAHAH");

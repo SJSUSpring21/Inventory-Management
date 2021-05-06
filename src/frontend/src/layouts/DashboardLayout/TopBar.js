@@ -19,10 +19,9 @@ import InputIcon from "@material-ui/icons/Input";
 import Logo from "../../components/Logo";
 import { io } from "socket.io-client";
 import { LaptopWindows, Markunread } from "@material-ui/icons";
+import { url } from "../../prodConfig";
 
-const END_POINT = process.env.PROD
-  ? `http://${process.env.BACKEND_HOST}:5000`
-  : "http://localhost:5000";
+const END_POINT = "http://52.24.201.154:5000";
 const socket = io(END_POINT, { transport: ["websocket"] });
 
 const useStyles = makeStyles(() => ({
@@ -101,7 +100,7 @@ const TopBar = ({ className, onMobileNavOpen, ...rest }) => {
       console.log("DATE ============================= ", data);
     });
 
-    fetch("/api/getAlerts", {})
+    fetch(url + "/api/getAlerts", {})
       .then((res) => res.json())
       .then((result) => {
         // socket.emit("notifications", data => {

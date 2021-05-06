@@ -14,6 +14,7 @@ import SaveAlt from "@material-ui/icons/SaveAlt";
 import Check from "@material-ui/icons/Check";
 import Input from "@material-ui/core/Input";
 import { Redirect, Navigate } from "react-router-dom";
+import { url } from "../../../prodConfig";
 
 const tableIcons = {
   FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
@@ -38,7 +39,7 @@ const BalanceSheetView = ({ className, ...rest }) => {
   const [refresh, setRefresh] = useState(false);
   const [resJson, setResJson] = useState([]);
   useEffect(() => {
-    fetch("/api/getFullResources", {})
+    fetch(url + "/api/getFullResources", {})
       .then((res) => res.json())
       .then((result) => {
         console.log("result = ", columns_array);
@@ -119,7 +120,7 @@ const BalanceSheetView = ({ className, ...rest }) => {
                   });
                 }
                 setTimeout(() => {
-                  fetch("/api/updateResourceThreshold", {
+                  fetch(url + "/api/updateResourceThreshold", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ updated_resources }),
