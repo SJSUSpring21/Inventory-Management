@@ -39,6 +39,7 @@ require("./models/price");
 require("./models/quantity");
 require("./models/resource");
 require("./models/inwardOutward");
+require("./models/outward");
 require("./models/roles");
 require("./models/estimatedUnits");
 require("./models/universalUnits");

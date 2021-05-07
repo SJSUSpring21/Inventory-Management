@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
 const InwardOutward = mongoose.model("InwardOutward");
+const Outward = mongoose.model("Outward");
 const Types = mongoose.model("Types");
 const Roles = mongoose.model("Roles");
 const Organization = mongoose.model("Organization");
@@ -13,7 +14,6 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = require("../config/keys");
 const requireLogin = require("../middleware/requireLogin");
-
 
 router.post("/api/signin", (req, res) => {
   const { email, password } = req.body;
@@ -175,6 +175,30 @@ router.get("/api/getFullResources", (req, res) => {
     })
     .catch((err) => {
       console.log(err);
+    });
+});
+
+router.get("/api/getNumberOfResources", (req, res) => {
+  Resource.countDocuments()
+    .then((count) => {
+      console.log("count: ", count);
+      res.send({ count: count });
+    })
+    .catch((err) => {
+      console.log("Err: ", err);
+      res.send({ count: 0 });
+    });
+});
+
+router.get("/api/getNumberOfEmployees", (req, res) => {
+  Person.countDocuments()
+    .then((count) => {
+      console.log("count: ", count);
+      res.send({ count: count });
+    })
+    .catch((err) => {
+      console.log("Err: ", err);
+      res.send({ count: 0 });
     });
 });
 
