@@ -53,10 +53,10 @@ const Expenditure = ({ className, ...rest }) => {
         <Grid container justify="space-between" spacing={3}>
           <Grid item>
             <Typography color="textSecondary" gutterBottom variant="h6">
-              EXPENDITURE
+              TOTAL EXPENDITURE
             </Typography>
             <Typography color="textPrimary" variant="h3">
-              {price}
+              ${price}
             </Typography>
           </Grid>
           <Grid item>
