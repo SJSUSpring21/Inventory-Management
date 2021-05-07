@@ -311,6 +311,7 @@ const AddPersonView = () => {
                     styles={customStyles}
                   />
                   <br />
+                  <br/>
                   <CreatableSelect
                     name="organization"
                     label="Organization"
@@ -331,6 +332,7 @@ const AddPersonView = () => {
                     styles={customStyles}
                   />
                   <br />
+                  <br/>
                   <CreatableSelect
                     name="jobTitle"
                     label="Job Title"
@@ -398,6 +400,7 @@ const AddPersonView = () => {
                     </option>
                   ))}
                 </TextField> */}
+                  <br/>
 
                   <TextField
                     multiline
@@ -416,7 +419,7 @@ const AddPersonView = () => {
                   {Boolean(touched.policy && errors.policy) && (
                     <FormHelperText error>{errors.policy}</FormHelperText>
                   )}
-                  <Box my={2}>
+                  <Box my={3}>
                     <Button
                       color="primary"
                       // disabled={isSubmitting}

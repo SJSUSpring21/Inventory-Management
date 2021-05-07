@@ -248,7 +248,7 @@ const AddResourceView = () => {
                       {({ insert, remove, push }) => (
                         <div className="container">
                           <div className="row clearfix">
-                            <div className="col-md-12 column">
+                            <div className="col-md-14 column">
                               <table
                                 className="table table-bordered table-hover"
                                 id="tab_logic"
@@ -268,7 +268,7 @@ const AddResourceView = () => {
                                     values.rows.map((item, idx) => (
                                       <tr id="addr0" key={idx}>
                                         <td>{idx + 1}</td>
-                                        <td style={{ width: "30%" }}>
+                                        <td style={{ width: "20%" }}>
                                           <TextField
                                             fullWidth
                                             // name="resource"
@@ -310,7 +310,7 @@ const AddResourceView = () => {
                                             variant="outlined"
                                           />
                                         </td>
-                                        <td style={{ width: "40%" }}>
+                                        <td style={{ width: "50%" }}>
                                           <TextField
                                             fullWidth
                                             name={`rows[${idx}].units`}
@@ -395,7 +395,8 @@ const AddResourceView = () => {
                     margin="normal"
                     styles={customStyles}
                   />
-
+                  <br/>
+                  
                   <TextField
                     fullWidth
                     name="type"
@@ -416,8 +417,10 @@ const AddResourceView = () => {
                       </option>
                     ))}
                   </TextField>
+                
+                  
+                  <Box my={3}>
 
-                  <Box my={2}>
                     <Button
                       color="primary"
                       // disabled={isSubmitting}

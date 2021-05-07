@@ -295,6 +295,7 @@ const OutwardView = () => {
                     value={values.vehicleNo}
                     variant="outlined"
                   />
+                  <br/>
 
                   <TextField
                     fullWidth
@@ -386,7 +387,7 @@ const OutwardView = () => {
                       {({ insert, remove, push }) => (
                         <div className="container">
                           <div className="row clearfix">
-                            <div className="col-md-12 column">
+                            <div className="col-md-14 column">
                               <table
                                 className="table table-bordered table-hover"
                                 id="tab_logic"
@@ -406,7 +407,7 @@ const OutwardView = () => {
                                     values.rows.map((item, idx) => (
                                       <tr id="addr0" key={idx}>
                                         <td>{idx + 1}</td>
-                                        <td style={{ width: "55%" }}>
+                                        <td style={{ width: "40%" }}>
                                           <Select
                                             name={`rows[${idx}].resource`}
                                             fullWidth
@@ -431,7 +432,7 @@ const OutwardView = () => {
                                             styles={customStyles}
                                           />
                                         </td>
-                                        <td style={{ width: "20%" }}>
+                                        <td style={{ width: "10%" }}>
                                           <TextField
                                             // error={ Boolean(touched.rows[0].quantity )}
                                             fullWidth
@@ -450,7 +451,7 @@ const OutwardView = () => {
                                             variant="outlined"
                                           />
                                         </td>
-                                        <td style={{ width: "35%" }}>
+                                        <td style={{ width: "60%" }}>
                                           <CreatableSelect
                                             name={`rows[${idx}].toLocation`}
                                             fullWidth
@@ -492,7 +493,8 @@ const OutwardView = () => {
                                     ))}
                                   {/* </div> */}
                                 </tbody>
-                              </table>
+                              </table>              
+
                               <Button
                                 type="button"
                                 onClick={() =>
@@ -516,7 +518,8 @@ const OutwardView = () => {
                       )}
                     </FieldArray>
                   </div>
-                  <Box my={2}>
+                  <br/>
+                  <Box my={3}>
                     <Button
                       color="primary"
                       // disabled={isSubmitting}

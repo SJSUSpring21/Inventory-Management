@@ -289,7 +289,7 @@ const InwardView = () => {
                       {({ insert, remove, push }) => (
                         <div className="container">
                           <div className="row clearfix">
-                            <div className="col-md-12 column">
+                            <div className="col-md-14 column">
                               <table
                                 className="table table-bordered table-hover"
                                 id="tab_logic"
@@ -310,7 +310,7 @@ const InwardView = () => {
                                     values.rows.map((item, idx) => (
                                       <tr id="addr0" key={idx}>
                                         <td>{idx + 1}</td>
-                                        <td style={{ width: "30%" }}>
+                                        <td style={{ width: "40%" }}>
                                           <Select
                                             name={`rows[${idx}].resource`}
                                             fullWidth
@@ -365,7 +365,7 @@ const InwardView = () => {
                                             ))}
                                           </TextField> */}
                                         </td>
-                                        <td style={{ width: "20%" }}>
+                                        <td style={{ width: "25%" }}>
                                           <TextField
                                             // error={ Boolean(touched.rows[0].quantity )}
                                             fullWidth
@@ -384,7 +384,7 @@ const InwardView = () => {
                                           />
                                         </td>
 
-                                        <td style={{ width: "20%" }}>
+                                        <td style={{ width: "30%" }}>
                                           <TextField
                                             // error={Boolean(touched.price && errors.price)}
                                             fullWidth
@@ -402,7 +402,7 @@ const InwardView = () => {
                                             variant="outlined"
                                           />
                                         </td>
-                                        <td style={{ width: "20%" }}>
+                                        <td style={{ width: "40%" }}>
                                           <TextField
                                             // error={ Boolean(touched.rows[0].quantity )}
                                             fullWidth
@@ -461,6 +461,8 @@ const InwardView = () => {
                       )}
                     </FieldArray>
                   </div>
+                  
+                  <br/>
 
                   <TextField
                     multiline
@@ -476,7 +478,7 @@ const InwardView = () => {
                     value={values.comments}
                     variant="outlined"
                   />
-                  <Box my={2}>
+                  <Box my={4}>
                     <Button
                       color="primary"
                       // disabled={isSubmitting}
