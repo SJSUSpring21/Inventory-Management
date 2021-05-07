@@ -3,6 +3,7 @@ import { Container, Grid, makeStyles } from "@material-ui/core";
 import Page from "../../../components/Page";
 import Budget from "./Budget";
 import LatestOrders from "./LatestOrders";
+import Expenditure from "./Expenditure";
 import Sales from "./Sales";
 import { Navigate } from "react-router-dom";
 import TasksProgress from "./TasksProgress";
@@ -38,18 +39,22 @@ const Dashboard = () => {
             <Grid item lg={3} sm={6} xl={3} xs={12}>
               <TotalCustomers />
             </Grid>
-            {/* <Grid item lg={3} sm={6} xl={3} xs={12}>
-              <TasksProgress />
+
+            <Grid item lg={3} sm={6} xl={3} xs={12}>
+              <Expenditure />
             </Grid>
+            {/*
             <Grid item lg={3} sm={6} xl={3} xs={12}>
               <TotalProfit />
             </Grid>
             <Grid item lg={8} md={12} xl={9} xs={12}>
               <Sales />
-            </Grid>
+  </Grid>*/}
+          </Grid>
+          <Grid container spacing={3}>
             <Grid item lg={4} md={6} xl={3} xs={12}>
               <TrafficByDevice />
-            </Grid> */}
+            </Grid>
           </Grid>
         </Container>
       </Page>

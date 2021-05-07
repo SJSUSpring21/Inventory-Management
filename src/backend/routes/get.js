@@ -202,4 +202,20 @@ router.get("/api/getNumberOfEmployees", (req, res) => {
     });
 });
 
+router.get("/api/getInwardOutwardReturncounts", async (req, res) => {
+  let inward = await InwardOutward.countDocuments({ type: "Inward" });
+  let outward = await InwardOutward.countDocuments({ type: "Outward" });
+  let returns = await InwardOutward.countDocuments({ type: "Returns" });
+  res.send({ inward, outward, returns });
+});
+
+router.get("/api/getMonthlyExpenditure", async (req, res) => {
+  let inward = await InwardOutward.find({ type: "Inward" });
+  let price = 0;
+  inward.forEach((item) => {
+    price = price + item.price;
+  });
+  res.send({ price: price });
+});
+
 module.exports = router;

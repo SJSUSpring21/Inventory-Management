@@ -1,7 +1,7 @@
-import React from 'react';
-import clsx from 'clsx';
-import PropTypes from 'prop-types';
-import { Doughnut } from 'react-chartjs-2';
+import React, { useState, useEffect } from "react";
+import clsx from "clsx";
+import PropTypes from "prop-types";
+import { Doughnut } from "react-chartjs-2";
 import {
   Box,
   Card,
@@ -11,37 +11,56 @@ import {
   Typography,
   colors,
   makeStyles,
-  useTheme
-} from '@material-ui/core';
-import LaptopMacIcon from '@material-ui/icons/LaptopMac';
-import PhoneIcon from '@material-ui/icons/Phone';
-import TabletIcon from '@material-ui/icons/Tablet';
+  useTheme,
+} from "@material-ui/core";
+import LaptopMacIcon from "@material-ui/icons/LaptopMac";
+import PhoneIcon from "@material-ui/icons/Phone";
+import TabletIcon from "@material-ui/icons/Tablet";
+import AddBoxIcon from "@material-ui/icons/AddBox";
+import IndeterminateCheckBoxIcon from "@material-ui/icons/IndeterminateCheckBox";
+import ReplyIcon from "@material-ui/icons/Reply";
+import { url } from "../../../prodConfig";
 
 const useStyles = makeStyles(() => ({
   root: {
-    height: '100%'
-  }
+    height: "100%",
+  },
 }));
 
 const TrafficByDevice = ({ className, ...rest }) => {
   const classes = useStyles();
   const theme = useTheme();
+  const [Inward, setInward] = useState([]);
+  const [Outward, setOutward] = useState([]);
+  const [Returns, setReturns] = useState([]);
+
+  useEffect(() => {
+    fetch(url + "/api/getInwardOutwardReturncounts", {})
+      .then((res) => res.json())
+      .then((result) => {
+        console.log("RESULTttttt: ", result);
+        setInward(result.inward);
+        setOutward(result.outward);
+        setReturns(result.returns);
+      });
+    console.log("In: ", Inward);
+  });
 
   const data = {
     datasets: [
       {
-        data: [63, 15, 22],
+        data: [Inward, Outward, Returns],
         backgroundColor: [
           colors.indigo[500],
           colors.red[600],
-          colors.orange[600]
+          colors.orange[600],
         ],
         borderWidth: 8,
         borderColor: colors.common.white,
-        hoverBorderColor: colors.common.white
-      }
+        hoverBorderColor: colors.common.white,
+      },
     ],
-    labels: ['Desktop', 'Tablet', 'Mobile']
+    labels: ["Inward", "Outward", "Returns"],
   };
 
   const options = {
@@ -49,7 +68,7 @@ const TrafficByDevice = ({ className, ...rest }) => {
     cutoutPercentage: 80,
     layout: { padding: 0 },
     legend: {
-      display: false
+      display: false,
     },
     maintainAspectRatio: false,
     responsive: true,
@@ -61,78 +80,49 @@ const TrafficByDevice = ({ className, ...rest }) => {
       enabled: true,
       footerFontColor: theme.palette.text.secondary,
       intersect: false,
-      mode: 'index',
-      titleFontColor: theme.palette.text.primary
-    }
+      mode: "index",
+      titleFontColor: theme.palette.text.primary,
+    },
   };
 
   const devices = [
     {
-      title: 'Desktop',
-      value: 63,
-      icon: LaptopMacIcon,
-      color: colors.indigo[500]
+      title: "Inward",
+      value: Inward,
+      icon: AddBoxIcon,
+      color: colors.indigo[500],
     },
     {
-      title: 'Tablet',
-      value: 15,
-      icon: TabletIcon,
-      color: colors.red[600]
+      title: "Outward",
+      value: Outward,
+      icon: IndeterminateCheckBoxIcon,
+      color: colors.red[600],
     },
     {
-      title: 'Mobile',
-      value: 23,
-      icon: PhoneIcon,
-      color: colors.orange[600]
-    }
+      title: "Returns",
+      value: Returns,
+      icon: ReplyIcon,
+      color: colors.orange[600],
+    },
   ];
 
   return (
-    <Card
-      className={clsx(classes.root, className)}
-      {...rest}
-    >
-      <CardHeader title="Traffic by Device" />
+    <Card className={clsx(classes.root, className)} {...rest}>
+      <CardHeader title="Transactions Count" />
       <Divider />
       <CardContent>
-        <Box
-          height={300}
-          position="relative"
-        >
-          <Doughnut
-            data={data}
-            options={options}
-          />
+        <Box height={300} position="relative">
+          <Doughnut data={data} options={options} />
         </Box>
-        <Box
-          display="flex"
-          justifyContent="center"
-          mt={2}
-        >
-          {devices.map(({
-            color,
-            icon: Icon,
-            title,
-            value
-          }) => (
-            <Box
-              key={title}
-              p={1}
-              textAlign="center"
-            >
+        <Box display="flex" justifyContent="center" mt={2}>
+          {devices.map(({ color, icon: Icon, title, value }) => (
+            <Box key={title} p={1} textAlign="center">
               <Icon color="action" />
-              <Typography
-                color="textPrimary"
-                variant="body1"
-              >
+              <Typography color="textPrimary" variant="body1">
                 {title}
               </Typography>
-              <Typography
-                style={{ color }}
-                variant="h2"
-              >
-                {value}
-                %
+              <Typography style={{ color }} variant="h2">
+                {value}%
               </Typography>
             </Box>
           ))}
@@ -143,7 +133,7 @@ const TrafficByDevice = ({ className, ...rest }) => {
 };
 
 TrafficByDevice.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
 };
 
 export default TrafficByDevice;
