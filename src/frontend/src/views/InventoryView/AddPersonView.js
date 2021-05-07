@@ -91,7 +91,7 @@ const AddPersonView = () => {
         }
         setLocations(x);
       });
-  }, [locations]);
+  }, []);
 
   useEffect(() => {
     fetch(url + "/api/getOrganizations", {})
@@ -311,7 +311,7 @@ const AddPersonView = () => {
                     styles={customStyles}
                   />
                   <br />
-                  <br/>
+                  <br />
                   <CreatableSelect
                     name="organization"
                     label="Organization"
@@ -332,7 +332,7 @@ const AddPersonView = () => {
                     styles={customStyles}
                   />
                   <br />
-                  <br/>
+                  <br />
                   <CreatableSelect
                     name="jobTitle"
                     label="Job Title"
@@ -400,7 +400,7 @@ const AddPersonView = () => {
                     </option>
                   ))}
                 </TextField> */}
-                  <br/>
+                  <br />
 
                   <TextField
                     multiline

@@ -70,7 +70,7 @@ const OutwardView = () => {
         }
         setAllLocations(x);
       });
-  }, [locations]);
+  }, []);
 
   // useEffect(()=>{
   // fetch('/api/getFullResources',{
@@ -295,7 +295,7 @@ const OutwardView = () => {
                     value={values.vehicleNo}
                     variant="outlined"
                   />
-                  <br/>
+                  <br />
 
                   <TextField
                     fullWidth
@@ -493,7 +493,7 @@ const OutwardView = () => {
                                     ))}
                                   {/* </div> */}
                                 </tbody>
-                              </table>              
+                              </table>
 
                               <Button
                                 type="button"
@@ -518,7 +518,7 @@ const OutwardView = () => {
                       )}
                     </FieldArray>
                   </div>
-                  <br/>
+                  <br />
                   <Box my={3}>
                     <Button
                       color="primary"
