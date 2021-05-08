@@ -109,7 +109,7 @@ const AddResourceView = () => {
           height="100%"
           justifyContent="center"
         >
-          <Container maxWidth="sm">
+          <Container maxWidth="md">
             <Formik
               initialValues={{
                 fullName: "",
@@ -248,7 +248,10 @@ const AddResourceView = () => {
                       {({ insert, remove, push }) => (
                         <div className="container">
                           <div className="row clearfix">
-                            <div className="col-md-14 column">
+                            <div
+                              className="col-md-14 column"
+                              style={{ width: "960px" }}
+                            >
                               <table
                                 className="table table-bordered table-hover"
                                 id="tab_logic"
@@ -395,8 +398,8 @@ const AddResourceView = () => {
                     margin="normal"
                     styles={customStyles}
                   />
-                  <br/>
-                  
+                  <br />
+
                   <TextField
                     fullWidth
                     name="type"
@@ -417,10 +420,8 @@ const AddResourceView = () => {
                       </option>
                     ))}
                   </TextField>
-                
-                  
-                  <Box my={3}>
 
+                  <Box my={3}>
                     <Button
                       color="primary"
                       // disabled={isSubmitting}

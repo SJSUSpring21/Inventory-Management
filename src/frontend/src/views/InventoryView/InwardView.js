@@ -112,7 +112,7 @@ const InwardView = () => {
           height="100%"
           justifyContent="center"
         >
-          <Container maxWidth="sm">
+          <Container maxWidth="md">
             <Formik
               initialValues={{
                 suppliedBy: "",
@@ -312,6 +312,7 @@ const InwardView = () => {
                                         <td>{idx + 1}</td>
                                         <td style={{ width: "40%" }}>
                                           <Select
+                                            style={{ marginTop: "50px" }}
                                             name={`rows[${idx}].resource`}
                                             fullWidth
                                             onChange={(selectedOption) => {
@@ -365,7 +366,7 @@ const InwardView = () => {
                                             ))}
                                           </TextField> */}
                                         </td>
-                                        <td style={{ width: "25%" }}>
+                                        <td style={{ width: "20%" }}>
                                           <TextField
                                             // error={ Boolean(touched.rows[0].quantity )}
                                             fullWidth
@@ -384,7 +385,7 @@ const InwardView = () => {
                                           />
                                         </td>
 
-                                        <td style={{ width: "30%" }}>
+                                        <td style={{ width: "20%" }}>
                                           <TextField
                                             // error={Boolean(touched.price && errors.price)}
                                             fullWidth
@@ -402,7 +403,7 @@ const InwardView = () => {
                                             variant="outlined"
                                           />
                                         </td>
-                                        <td style={{ width: "40%" }}>
+                                        <td style={{ width: "20%" }}>
                                           <TextField
                                             // error={ Boolean(touched.rows[0].quantity )}
                                             fullWidth
@@ -461,8 +462,8 @@ const InwardView = () => {
                       )}
                     </FieldArray>
                   </div>
-                  
-                  <br/>
+
+                  <br />
 
                   <TextField
                     multiline

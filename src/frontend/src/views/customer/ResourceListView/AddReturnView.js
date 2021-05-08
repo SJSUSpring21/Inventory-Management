@@ -69,7 +69,10 @@ const AddReturnView = ({ className, ...rest }) => {
               result.outward[i].resource +
               "(" +
               result.outward[i].quantity +
-              ")",
+              ")-" +
+              "[" +
+              result.outward[i].location +
+              "]",
             value: result.outward[i].resource,
             outward_sequence: result.outward[i].outward_sequence,
           });
@@ -130,7 +133,7 @@ const AddReturnView = ({ className, ...rest }) => {
           height="100%"
           justifyContent="center"
         >
-          <Container maxWidth="sm">
+          <Container maxWidth="md">
             <Formik
               initialValues={{
                 resource: "",

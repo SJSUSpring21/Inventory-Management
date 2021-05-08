@@ -148,7 +148,7 @@ const AddPersonView = () => {
           height="100%"
           justifyContent="center"
         >
-          <Container maxWidth="sm">
+          <Container maxWidth="md">
             <Formik
               initialValues={{
                 email: "",

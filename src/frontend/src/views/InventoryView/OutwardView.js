@@ -152,7 +152,7 @@ const OutwardView = () => {
           height="100%"
           justifyContent="center"
         >
-          <Container maxWidth="sm">
+          <Container maxWidth="md">
             <Formik
               initialValues={{
                 requestedBy: "",
@@ -291,6 +291,7 @@ const OutwardView = () => {
                     label="vehicle number"
                     name="vehicleNo"
                     onBlur={handleBlur}
+                    required
                     onChange={handleChange}
                     value={values.vehicleNo}
                     variant="outlined"
@@ -385,9 +386,12 @@ const OutwardView = () => {
                   <div style={{ paddingTop: 20 }}>
                     <FieldArray name="rows">
                       {({ insert, remove, push }) => (
-                        <div className="container">
+                        <div className="container" style={{ width: "100%" }}>
                           <div className="row clearfix">
-                            <div className="col-md-14 column">
+                            <div
+                              className="col-md-14 column"
+                              style={{ width: "960px" }}
+                            >
                               <table
                                 className="table table-bordered table-hover"
                                 id="tab_logic"
