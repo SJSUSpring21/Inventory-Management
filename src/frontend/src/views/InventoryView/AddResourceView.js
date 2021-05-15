@@ -187,7 +187,7 @@ const AddResourceView = () => {
                         variant="outlined"
                         margin="normal"
                       >
-                        <option value="" label="select Owner" />
+                        <option value="" label="select Sourced by" />
                         {allOwners.map((option) => (
                           <option
                             key={option.first_name}

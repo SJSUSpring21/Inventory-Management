@@ -118,7 +118,7 @@ const LoginView = () => {
                     Sign in on the internal platform
                   </Typography>
                 </Box>
-                <Grid container spacing={3}>
+                {/* <Grid container spacing={3}>
                   <Grid item xs={12} md={6}>
                     <Button
                       color="primary"
@@ -142,14 +142,14 @@ const LoginView = () => {
                       Login with Google
                     </Button>
                   </Grid>
-                </Grid>
+                </Grid> */}
                 <Box mt={3} mb={1}>
                   <Typography
                     align="center"
-                    color="textSecondary"
+                    color="textPrimary"
                     variant="body1"
                   >
-                    or login with email address
+                    Login with email address
                   </Typography>
                 </Box>
                 <TextField
@@ -190,12 +190,12 @@ const LoginView = () => {
                     Sign in now
                   </Button>
                 </Box>
-                <Typography color="textSecondary" variant="body1">
+                {/* <Typography color="textSecondary" variant="body1">
                   Don&apos;t have an account?{" "}
                   <Link component={RouterLink} to="/register" variant="h6">
                     Sign up
                   </Link>
-                </Typography>
+                </Typography> */}
               </form>
             )}
           </Formik>

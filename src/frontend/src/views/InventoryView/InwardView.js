@@ -133,9 +133,9 @@ const InwardView = () => {
                 sourcedBy: Yup.string()
                   .max(255)
                   .required("Sourced By is required"),
-                suppliedBy: Yup.string()
-                  .max(255)
-                  .required("Sourced By is required"),
+                // suppliedBy: Yup.string()
+                //   .max(255)
+                //   .required("Supplied By is required"),
                 date: Yup.string()
                   .max(255)
                   .required("Date is required"),

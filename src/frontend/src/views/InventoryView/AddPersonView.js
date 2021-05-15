@@ -168,12 +168,12 @@ const AddPersonView = () => {
                 firstName: Yup.string()
                   .max(255)
                   .required("First name is required"),
-                lastName: Yup.string()
-                  .max(255)
-                  .required("Last name is required"),
-                location: Yup.string()
-                  .max(255)
-                  .required("Location is required"),
+                // lastName: Yup.string()
+                //   .max(255)
+                //   .required("Last name is required"),
+                // location: Yup.string()
+                //   .max(255)
+                //   .required("Location is required"),
                 phone: Yup.string().matches(
                   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/,
                   "Phone number is not valid"

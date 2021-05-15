@@ -213,7 +213,17 @@ router.get("/api/getMonthlyExpenditure", async (req, res) => {
   let inward = await InwardOutward.find({ type: "Inward" });
   let price = 0;
   inward.forEach((item) => {
-    price = price + item.price;
+    price = price + item.price + Number(item.GST);
+  });
+  res.send({ price: price });
+});
+
+router.get("/api/getTaxes", async (req, res) => {
+  let inward = await InwardOutward.find({ type: "Inward" });
+  let price = 0;
+  inward.forEach((item) => {
+    console.log("price = ", price);
+    price = price + Number(item.GST);
   });
   res.send({ price: price });
 });

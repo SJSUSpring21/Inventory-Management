@@ -134,6 +134,11 @@ const TopBar = ({ className, onMobileNavOpen, ...rest }) => {
         <Toolbar>
           <RouterLink to="/">
             <Logo />
+            <h3
+              style={{ marginLeft: "10px", fontSize: "23px", marginTop: "8px" }}
+            >
+              Inventory Management
+            </h3>
           </RouterLink>
           <Box flexGrow={1} />
           <Hidden mdDown>

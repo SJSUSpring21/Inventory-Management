@@ -19,7 +19,13 @@ const TopBar = ({ className, ...rest }) => {
     <AppBar className={clsx(classes.root, className)} elevation={0} {...rest}>
       <Toolbar className={classes.toolbar}>
         <RouterLink to="/">
+          {/* <img src={Logo}></img> */}
           <Logo />
+          <h3
+            style={{ marginLeft: "10px", fontSize: "23px", marginTop: "8px" }}
+          >
+            Inventory Management
+          </h3>
         </RouterLink>
       </Toolbar>
     </AppBar>

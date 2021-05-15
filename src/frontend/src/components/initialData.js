@@ -29,7 +29,7 @@ export const types = [
   { value: "machine", label: "MACHINE" },
   { value: "spare", label: "SPARE" },
   { value: "vehicle", label: "VEHICLE" },
-  { value: "people", label: "PEOPLE" },
+  // { value: "people", label: "PEOPLE" },
 ];
 
 export const jobtitles = [
