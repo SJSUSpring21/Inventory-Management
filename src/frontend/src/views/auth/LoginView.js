@@ -39,7 +39,12 @@ const LoginView = () => {
         height="100%"
         justifyContent="center"
       >
-        <Container maxWidth="sm">
+        <Container maxWidth="md">
+          <div className="row justify-content-center">
+            <h1 style={{ marginTop: "-60px", marginBottom: "100px" }}>
+              Inventory Management Software
+            </h1>
+          </div>
           <Formik
             initialValues={{
               email: "team5@gmail.com",
